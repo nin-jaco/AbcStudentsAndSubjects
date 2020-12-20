@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uwp="using:ABCSchool.Uwp"
+    xmlns:model="using:ABCSchool.Uwp.Model"
     NavigationCacheMode="Enabled"    
     mc:Ignorable="d">
 
@@ -17,21 +18,16 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Name="SelectItmesBtn" FontFamily="OverflowCheckGlyph" Label="Select Items" Click="SelectItems">
-                <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xe762;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
             <AppBarButton x:Name="AddItemBtn" Label="Add Item" Icon="Add" Click="AddItem" />
             <AppBarButton x:Name="EditItemBtn" Label="Edit Item" Icon="Edit" Click="EditItemBtn_OnClickItem" />
             <AppBarButton x:Name="DeleteItemBtn" Label="Delete Item" Icon="Delete" Click="DeleteItem" />
-            <AppBarButton x:Name="DeleteItemsBtn" Label="Delete Items" Icon="Delete" Click="DeleteItems" />
             <AppBarButton x:Name="CancelSelectionBtn" Label="Cancel" Icon="Cancel" Click="CancelSelection" />
+            <AppBarButton x:Name="SaveBtn" Label="Save" Icon="Save" Click="SaveBtn_OnClickSelection" />
         </CommandBar>
     </Page.BottomAppBar>
     <Page.Resources>
         <!-- When using x:Bind, you need to set x:DataType -->
-        <DataTemplate x:Name="ContactListViewTemplate" x:DataType="data:Student">
+        <DataTemplate x:Name="ContactListViewTemplate" x:DataType="model:StudentViewModel">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -74,100 +70,6 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="PageSizeStatesGroup"
-                              CurrentStateChanged="OnCurrentStateChanged">
-
-                <VisualState x:Name="WideState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720"  />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="MasterListView.Visibility" Value="Visible" />
-                        <Setter Target="DetailContentPresenter.Visibility" Value="Visible" />
-                        <Setter Target="MasterColumn.Width" Value="320" />
-                        <Setter Target="DetailColumn.Width" Value="*"/>
-                    </VisualState.Setters>
-                </VisualState>
-
-                <VisualState x:Name="NarrowState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"  />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="MasterListView.Visibility" Value="Visible" />
-                        <Setter Target="DetailContentPresenter.Visibility" Value="Collapsed" />
-                        <Setter Target="MasterColumn.Width" Value="*" />
-                        <Setter Target="DetailColumn.Width" Value="0"/>
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-            <VisualStateGroup x:Name="MasterDetailsStatesGroup">
-
-                <VisualState x:Name="MasterState">
-                    <VisualState.Setters>
-                        <Setter Target="MasterListView.SelectionMode" Value="None" />
-                        <Setter Target="MasterListView.IsItemClickEnabled" Value="True" />
-                        <!--#region App Bar Commands-->
-                        <Setter Target="SelectItmesBtn.Visibility" Value="Visible" />
-                        <Setter Target="AddItemBtn.Visibility" Value="Visible" />
-                        <Setter Target="DeleteItemBtn.Visibility" Value="Collapsed" />
-                        <Setter Target="DeleteItemsBtn.Visibility" Value="Collapsed" />
-                        <Setter Target="CancelSelectionBtn.Visibility" Value="Collapsed" />
-                        <!--#endregion-->
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="MasterDetailsState">
-                    <VisualState.Setters>
-                        <Setter Target="MasterListView.SelectionMode" Value="Extended" />
-                        <Setter Target="MasterListView.IsItemClickEnabled" Value="False" />
-                        <!--#region App Bar Commands-->
-                        <Setter Target="SelectItmesBtn.Visibility" Value="Visible" />
-                        <Setter Target="AddItemBtn.Visibility" Value="Visible" />
-                        <Setter Target="DeleteItemBtn.Visibility" Value="Visible" />
-                        <Setter Target="DeleteItemsBtn.Visibility" Value="Collapsed" />
-                        <Setter Target="CancelSelectionBtn.Visibility" Value="Collapsed" />
-                        <!--#endregion-->
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="ExtendedSelectionState">
-                    <VisualState.Setters>
-                        <!--#region App Bar Commands-->
-                        <Setter Target="SelectItmesBtn.Visibility" Value="Collapsed" />
-                        <Setter Target="AddItemBtn.Visibility" Value="Collapsed" />
-                        <Setter Target="DeleteItemBtn.Visibility" Value="Collapsed" />
-                        <Setter Target="DeleteItemsBtn.Visibility" Value="Visible" />
-                        <Setter Target="CancelSelectionBtn.Visibility" Value="Collapsed" />
-                        <!--#endregion-->
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="MultipleSelectionState">
-                    <VisualState.Setters>
-                        <Setter Target="MasterListView.SelectionMode" Value="Multiple" />
-                        <Setter Target="MasterListView.IsItemClickEnabled" Value="False" />
-                        <!--#region App Bar Commands-->
-                        <Setter Target="SelectItmesBtn.Visibility" Value="Collapsed" />
-                        <Setter Target="AddItemBtn.Visibility" Value="Collapsed" />
-                        <Setter Target="DeleteItemBtn.Visibility" Value="Collapsed" />
-                        <Setter Target="DeleteItemsBtn.Visibility" Value="Visible" />
-                        <Setter Target="CancelSelectionBtn.Visibility" Value="Visible" />
-                        <!--#endregion-->
-                    </VisualState.Setters>
-                </VisualState>
-
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-
-        <!--#region Navigation across the samples -->
-        <Button Style="{StaticResource SplitViewTogglePaneButtonStyle}"
-                    VerticalAlignment="Center"
-                    Click="ShowSplitView"/>
-        <TextBlock Text="Master/Details Selection" 
-                   Style="{ThemeResource  TitleTextBlockStyle}" 
-                   VerticalAlignment="Center"
-                   Grid.Column="1"/>
-        <!--#endregion-->
-
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
               Grid.Row="1"
               Grid.ColumnSpan="2">
@@ -186,13 +88,15 @@
             </Border>
 
             <ListView x:Name="MasterListView" 
-                  SelectionMode="Extended"
+                  SelectionMode="Single"
                   SelectionChanged="OnSelectionChanged"
                   IsItemClickEnabled="True"
                   ShowsScrollingPlaceholders="False"
                   ItemTemplate="{StaticResource ContactListViewTemplate }"
                   ItemClick="OnItemClick"
-                  Grid.Row="1">
+                  Grid.Row="1"
+                  ItemsSource="{x:Bind ViewModel.Students}"
+                  SelectedItem="{x:Bind ViewModel.SelectedStudent, Mode=TwoWay}">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -209,7 +113,7 @@
                 BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}"
                 Content="{x:Bind MasterListView.SelectedItem, Mode=OneWay}">
                 <ContentPresenter.ContentTemplate>
-                    <DataTemplate x:DataType="data:Student">
+                    <DataTemplate x:DataType="model:StudentViewModel">
                         <StackPanel>
                             <TextBlock Style="{ThemeResource TitleTextBlockStyle}"
                                    Margin="0,8"       
@@ -222,8 +126,35 @@
                                    Text="{x:Bind Mobile}" />
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
                                    Margin="0,9" 
-                                   TextWrapping="WrapWholeWords"
                                    Text="{x:Bind Email}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ContentPresenter.ContentTemplate>
+                <ContentPresenter.ContentTransitions>
+                    <TransitionCollection/>
+                </ContentPresenter.ContentTransitions>
+            </ContentPresenter>
+
+            <ContentPresenter
+                x:Name="EditContentPresenter"
+                Grid.Column="1"
+                Grid.RowSpan="2"
+                BorderThickness="1,0,0,0"
+                Padding="24,0"
+                BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}"
+                Content="{x:Bind ViewModel.SelectedStudent, Mode=TwoWay}">
+                <ContentPresenter.ContentTemplate>
+                    <DataTemplate x:DataType="model:StudentViewModel">
+                        <StackPanel>
+                            <TextBlock Text="New Student" Style="{StaticResource TitleTextBlockStyle}"/>
+                            <!--<Button Height="100" Width="100" Background="LightGray" Content="Add photo" Margin="0,24" Click="AddPhotoButton_Click"/>-->
+                            <TextBox x:Name="FirstName" Header= "First Name" Margin="0,24,0,0" PlaceholderText="First name" MaxLength="32" Width="400" HorizontalAlignment="Left" Text="{x:Bind FirstName, Mode=TwoWay}"/>
+                            <TextBox x:Name="LastName" Header="Last Name" Margin="0,24,0,0" PlaceholderText="Last name" MaxLength="50" Width="400" HorizontalAlignment="Left" Text="{x:Bind LastName, Mode=TwoWay}" />
+                            <TextBox x:Name="Email" Header="Email" Margin="0,24,0,0" PlaceholderText="Email"  MaxLength="150" Width="400" HorizontalAlignment="Left" Text="{x:Bind Email, Mode=TwoWay}" />
+                            <TextBox x:Name="Mobile" Header="Mobile" PlaceholderText="Mobile" Margin="0,24,0,0" MaxLength="150" Width="400" HorizontalAlignment="Left" Text="{x:Bind Mobile, Mode=TwoWay}" />
+                            <RelativePanel>
+                                <ListBox />
+                            </RelativePanel>
                         </StackPanel>
                     </DataTemplate>
                 </ContentPresenter.ContentTemplate>

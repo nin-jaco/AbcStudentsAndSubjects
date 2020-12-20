@@ -4,7 +4,7 @@ using ABCSchool.Models;
 
 namespace ABCSchool.Uwp.Interfaces
 {
-    public interface IStudentService<T> where T : IEntity
+    public interface IStudentsSubjectsService<T> where T : IEntity
     {
         Task<List<T>> GetAllAsync(string accessToken = null, bool forceRefresh = false);
         Task<T> GetByIdAsync(int id, string accessToken = null, bool forceRefresh = false);
@@ -14,5 +14,6 @@ namespace ABCSchool.Uwp.Interfaces
         Task<bool> PutAsJsonAsync(T item);
         Task<bool> DeleteAsync();
         void AddAuthorizationHeader(string token);
+        Task<List<StudentsSubjects>> GetByStudentIdAsync(int id, string accessToken = null, bool forceRefresh = false);
     }
 }

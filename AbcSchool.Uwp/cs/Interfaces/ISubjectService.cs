@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using ABCSchool.Models;
 
-namespace ABCSchool.App.Interfaces
+namespace ABCSchool.Uwp.Interfaces
 {
     public interface ISubjectService<T> where T : IEntity
     {

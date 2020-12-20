@@ -4,11 +4,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using ABCSchool.App.Interfaces;
 using ABCSchool.Models;
+using ABCSchool.Uwp.Interfaces;
 using Newtonsoft.Json;
 
-namespace ABCSchool.App.Services
+namespace ABCSchool.Uwp.Services
 {
     public class SubjectService : ISubjectService<Subject>
     {

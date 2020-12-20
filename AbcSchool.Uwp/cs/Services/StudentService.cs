@@ -4,15 +4,15 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using ABCSchool.App.Interfaces;
 using ABCSchool.Models;
+using ABCSchool.Uwp.Interfaces;
 using Newtonsoft.Json;
 
 namespace ABCSchool.Uwp.Services
 {
     public class StudentService : IStudentService<Student>
     {
-        private static string ServiceUri { get; set; } = "https://localhost:44318/api/Student";
+        private static string ServiceUri { get; set; } = @"https://localhost:44318/api/Student";
 
         public async Task<List<Student>> GetAllAsync(string accessToken = null, bool forceRefresh = false)
         {

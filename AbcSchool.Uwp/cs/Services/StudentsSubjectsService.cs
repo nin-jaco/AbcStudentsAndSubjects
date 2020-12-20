@@ -5,11 +5,12 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using ABCSchool.Models;
+using ABCSchool.Uwp.Interfaces;
 using Newtonsoft.Json;
 
 namespace ABCSchool.Uwp.Services
 {
-    public class StudentsSubjectService : IStudentSubjectService<StudentsSubjects>
+    public class StudentsSubjectService : IStudentsSubjectsService<StudentsSubjects>
     {
         private static string ServiceUri { get; set; } = "https://localhost:44318/api/StudentsSubjects";
 
@@ -36,7 +37,29 @@ namespace ABCSchool.Uwp.Services
             return result;
         }
 
-        public async Task<List<StudentsSubjects>> GetByIdAsync(int id, string accessToken = null, bool forceRefresh = false)
+        public async Task<StudentsSubjects> GetByIdAsync(int id, string accessToken = null, bool forceRefresh = false)
+        {
+            StudentsSubjects result = default;
+
+            try
+            {
+                using (var handler = new HttpClientHandler { AllowAutoRedirect = false })
+                using (HttpClient client = new HttpClient(handler))
+                {
+                    var json = await client.GetStringAsync(ServiceUri += $@"/{id}");
+                    result = await Task.Run(() => JsonConvert.DeserializeObject<StudentsSubjects>(json));
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return result;
+        }
+
+        public async Task<List<StudentsSubjects>> GetByStudentIdAsync(int id, string accessToken = null, bool forceRefresh = false)
         {
             List<StudentsSubjects> result = default;
 
@@ -208,8 +231,5 @@ namespace ABCSchool.Uwp.Services
         }
     }
 
-    public interface IStudentSubjectService<T>
-    {
-    }
 }
 

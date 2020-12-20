@@ -4,11 +4,26 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using ABCSchool.Models;
+using ABCSchool.Uwp.Interfaces;
+using ABCSchool.Uwp.Model;
+using ABCSchool.Uwp.Services;
 
 namespace ABCSchool.Uwp
 {
     sealed partial class App : Application
     {
+        /// <summary>
+        /// Gets the app-wide MainViewModel singleton instance.
+        /// </summary>
+        public static MainViewModel ViewModel { get; } = new MainViewModel();
+
+        /// <summary>
+        /// Pipeline for interacting with backend service or database.
+        /// </summary>
+        public static IStudentService<Student> StudentService { get; private set; } = new StudentService();
+        public static ISubjectService<Subject> SubjectService { get; private set; } = new SubjectService();
+        public static IStudentsSubjectsService<StudentsSubjects> StudentSubjectService { get; private set; } = new StudentsSubjectService();
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
