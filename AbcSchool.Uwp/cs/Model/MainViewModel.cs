@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using ABCSchool.Models;
 using ABCSchool.Uwp.Services;
 using ABCSchool.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -33,14 +34,23 @@ namespace ABCSchool.Uwp.Model
             = new ObservableCollection<SubjectViewModel>();
 
         private StudentViewModel _selectedStudent;
-
         /// <summary>
-        /// Gets or sets the selected student, or null if no student is selected. 
+        /// Gets or sets the selected customer, or null if no customer is selected. 
         /// </summary>
         public StudentViewModel SelectedStudent
         {
             get => _selectedStudent;
             set => Set(ref _selectedStudent, value);
+        }
+
+        private StudentViewModel _newEditStudent;
+        /// <summary>
+        /// Gets or sets the selected customer, or null if no customer is selected. 
+        /// </summary>
+        public StudentViewModel NewEditStudent
+        {
+            get => _newEditStudent ?? SelectedStudent ?? new StudentViewModel(new Student());
+            set => Set(ref _newEditStudent, value);
         }
 
         private SubjectViewModel _selectedSubject;
@@ -115,9 +125,9 @@ namespace ABCSchool.Uwp.Model
             {
                 IsLoading = true;
                 foreach (var modifiedStudent in Students
-                    .Where(student => student.IsModified).Select(student => student.StudentModel))
+                    .Where(customer => customer.IsModified).Select(student => student.StudentModel))
                 {
-                    await App.StudentService.PutAsync(modifiedStudent);
+                    await App.StudentService.PutAsJsonAsync(modifiedStudent);
                 }
 
                 await GetStudentListAsync();

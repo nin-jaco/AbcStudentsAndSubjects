@@ -12,7 +12,7 @@ namespace ABCSchool.Uwp.Services
 {
     public class StudentService : IStudentService<Student>
     {
-        private static string ServiceUri { get; set; } = @"https://localhost:44318/api/Student";
+        private const string ServiceUri = @"https://localhost:44318/api/Student";
 
         public async Task<List<Student>> GetAllAsync(string accessToken = null, bool forceRefresh = false)
         {
@@ -41,13 +41,12 @@ namespace ABCSchool.Uwp.Services
         {
             Student result = default;
 
-
             try
             {
                 using (var handler = new HttpClientHandler { AllowAutoRedirect = false })
                 using (HttpClient client = new HttpClient(handler))
                 {
-                    var json = await client.GetStringAsync(ServiceUri += $@"/{id}");
+                    var json = await client.GetStringAsync($@"{ServiceUri}/{id}");
                     result = await Task.Run(() => JsonConvert.DeserializeObject<Student>(json));
 
 
@@ -155,7 +154,7 @@ namespace ABCSchool.Uwp.Services
 
                     var serializedItem = JsonConvert.SerializeObject(item);
 
-                    var response = await client.PutAsync(ServiceUri += $@"/{item.Id}", new StringContent(serializedItem, Encoding.UTF8, "application/json"));
+                    var response = await client.PutAsync($@"{ServiceUri}/{item.Id}", new StringContent(serializedItem, Encoding.UTF8, "application/json"));
 
                     return response.IsSuccessStatusCode;
                 }
@@ -173,7 +172,7 @@ namespace ABCSchool.Uwp.Services
             {
                 using (var client = new HttpClient())
                 {
-                    var response = await client.DeleteAsync(ServiceUri += $@"/{studentModelId}");
+                    var response = await client.DeleteAsync($@"{ServiceUri}/{studentModelId}");
 
                     return response.IsSuccessStatusCode;
                 }

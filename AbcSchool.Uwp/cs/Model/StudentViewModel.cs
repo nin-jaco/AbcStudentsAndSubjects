@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -16,7 +17,14 @@ namespace ABCSchool.Uwp.Model
         /// <summary>
         /// Initializes a new instance of the StudentViewModel class that wraps a Student object.
         /// </summary>
-        public StudentViewModel(Student studentModel = null) => StudentModel = studentModel ?? new Student();
+        public StudentViewModel(Student studentModel = null)
+        {
+            StudentModel = studentModel ?? new Student
+            {
+                Email = "", FirstName = "", Id = 0, LastName = "", Mobile = "",
+                StudentsSubjects = new List<StudentsSubjects>()
+            };
+        }
 
         private Student _studentModel;
 
@@ -277,7 +285,7 @@ namespace ABCSchool.Uwp.Model
         /// </summary>
         public async void EndEdit() => await SaveAsync();
 
-        public async Task DeleteAsync()
+        public async void DeleteAsync()
         {
             await App.StudentService.DeleteAsync(StudentModel.Id);
             App.ViewModel.Students.Remove(this);

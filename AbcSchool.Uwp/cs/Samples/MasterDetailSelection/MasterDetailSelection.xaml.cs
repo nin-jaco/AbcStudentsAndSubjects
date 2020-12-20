@@ -99,9 +99,11 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
         #region Commands
         private void AddItem(object sender, RoutedEventArgs e)
         {
-            ViewModel.SelectedStudent = new StudentViewModel();
-            ViewModel.SelectedStudent.StartEdit();
-            ViewModel.SelectedStudent.IsNewStudent = true;
+            MasterListView.SelectedItem = null;
+            DetailContentPresenter.DataContext = new StudentViewModel();
+            //ViewModel.NewEditStudent = new StudentViewModel(new Student());
+            ViewModel.NewEditStudent.StartEdit();
+            ViewModel.NewEditStudent.IsNewStudent = true;
             MasterListView.IsItemClickEnabled = false;
             DetailContentPresenter.Visibility = Visibility.Collapsed;
             EditContentPresenter.Visibility = Visibility.Visible;
@@ -115,7 +117,7 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
         {
             if (ViewModel.SelectedStudent != null)
             {
-                ViewModel.SelectedStudent.
+                ViewModel.SelectedStudent.DeleteAsync();
                 ViewModel.Students.Remove(ViewModel.SelectedStudent);
 
                 if (MasterListView.Items.Count > 0)
@@ -143,7 +145,7 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
             DeleteItemBtn.Visibility = Visibility.Collapsed;
             CancelSelectionBtn.Visibility = Visibility.Collapsed;
             SaveBtn.Visibility = Visibility.Collapsed;
-            ViewModel.SelectedStudent.CancelEdit();
+            ViewModel.NewEditStudent.CancelEdit();
         }
         
         #endregion
@@ -155,7 +157,7 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
                 if (MasterListView.Items.Count > 0)
                 {
                     ViewModel.SelectedStudent = MasterListView.SelectedItem as StudentViewModel;
-                    ViewModel.SelectedStudent.StartEdit();
+                    ViewModel.NewEditStudent.StartEdit();
 
                     //MasterListView.SelectionMode = ListViewSelectionMode.None;
                     MasterListView.IsItemClickEnabled = false;
@@ -175,7 +177,7 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
         {
             //var a = ViewModel.SelectedStudent;
             //ViewModel.Sync();
-            ViewModel.SelectedStudent.EndEdit();
+            ViewModel.NewEditStudent.EndEdit();
             MasterListView.SelectionMode = ListViewSelectionMode.Single;
             MasterListView.IsItemClickEnabled = true;
             DetailContentPresenter.Visibility = Visibility.Collapsed;
