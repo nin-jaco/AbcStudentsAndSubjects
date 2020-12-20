@@ -100,7 +100,8 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
         private void AddItem(object sender, RoutedEventArgs e)
         {
             ViewModel.SelectedStudent = new StudentViewModel();
-            MasterListView.SelectionMode = ListViewSelectionMode.None;
+            ViewModel.SelectedStudent.StartEdit();
+            ViewModel.SelectedStudent.IsNewStudent = true;
             MasterListView.IsItemClickEnabled = false;
             DetailContentPresenter.Visibility = Visibility.Collapsed;
             EditContentPresenter.Visibility = Visibility.Visible;
@@ -114,6 +115,7 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
         {
             if (ViewModel.SelectedStudent != null)
             {
+                ViewModel.SelectedStudent.
                 ViewModel.Students.Remove(ViewModel.SelectedStudent);
 
                 if (MasterListView.Items.Count > 0)
@@ -141,7 +143,7 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
             DeleteItemBtn.Visibility = Visibility.Collapsed;
             CancelSelectionBtn.Visibility = Visibility.Collapsed;
             SaveBtn.Visibility = Visibility.Collapsed;
-            ViewModel.SelectedStudent = null;
+            ViewModel.SelectedStudent.CancelEdit();
         }
         
         #endregion
@@ -172,8 +174,17 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
         private void SaveBtn_OnClickSelection(object sender, RoutedEventArgs e)
         {
             //var a = ViewModel.SelectedStudent;
-            ViewModel.Sync();
+            //ViewModel.Sync();
             ViewModel.SelectedStudent.EndEdit();
+            MasterListView.SelectionMode = ListViewSelectionMode.Single;
+            MasterListView.IsItemClickEnabled = true;
+            DetailContentPresenter.Visibility = Visibility.Collapsed;
+            EditContentPresenter.Visibility = Visibility.Collapsed;
+            AddItemBtn.Visibility = Visibility.Visible;
+            EditItemBtn.Visibility = Visibility.Collapsed;
+            DeleteItemBtn.Visibility = Visibility.Collapsed;
+            CancelSelectionBtn.Visibility = Visibility.Collapsed;
+            SaveBtn.Visibility = Visibility.Collapsed;
         }
     }
 }

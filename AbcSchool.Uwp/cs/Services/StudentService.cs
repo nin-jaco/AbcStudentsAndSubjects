@@ -155,7 +155,7 @@ namespace ABCSchool.Uwp.Services
 
                     var serializedItem = JsonConvert.SerializeObject(item);
 
-                    var response = await client.PutAsync(ServiceUri, new StringContent(serializedItem, Encoding.UTF8, "application/json"));
+                    var response = await client.PutAsync(ServiceUri += $@"/{item.Id}", new StringContent(serializedItem, Encoding.UTF8, "application/json"));
 
                     return response.IsSuccessStatusCode;
                 }
@@ -167,13 +167,13 @@ namespace ABCSchool.Uwp.Services
             }
         }
 
-        public async Task<bool> DeleteAsync()
+        public async Task<bool> DeleteAsync(int studentModelId)
         {
             try
             {
                 using (var client = new HttpClient())
                 {
-                    var response = await client.DeleteAsync(ServiceUri);
+                    var response = await client.DeleteAsync(ServiceUri += $@"/{studentModelId}");
 
                     return response.IsSuccessStatusCode;
                 }

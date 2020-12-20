@@ -96,11 +96,11 @@ namespace ABCSchool.Uwp.Model
             {
                 IsNewSubject = false;
                 App.ViewModel.Subjects.Add(this);
-                await App.SubjectService.PostAsync(SubjectModel);
+                await App.SubjectService.PostAsJsonAsync(SubjectModel);
                 return;
             }
 
-            await App.SubjectService.PutAsync(SubjectModel);
+            await App.SubjectService.PutAsJsonAsync(SubjectModel);
         }
 
         /// <summary>

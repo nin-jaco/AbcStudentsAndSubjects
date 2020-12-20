@@ -176,11 +176,11 @@ namespace ABCSchool.Uwp.Model
             {
                 IsNewStudent = false;
                 App.ViewModel.Students.Add(this);
-                await App.StudentService.PostAsync(StudentModel);
+                await App.StudentService.PostAsJsonAsync(StudentModel);
                 return;
             }
 
-            await App.StudentService.PutAsync(StudentModel);
+            await App.StudentService.PutAsJsonAsync(StudentModel);
         }
 
         /// <summary>
@@ -276,5 +276,11 @@ namespace ABCSchool.Uwp.Model
         /// Called when a bound DataGrid control commits the edits that have been made to a Student.
         /// </summary>
         public async void EndEdit() => await SaveAsync();
+
+        public async Task DeleteAsync()
+        {
+            await App.StudentService.DeleteAsync(StudentModel.Id);
+            App.ViewModel.Students.Remove(this);
+        }
     }
 }

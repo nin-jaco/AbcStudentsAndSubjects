@@ -146,7 +146,7 @@
                 <ContentPresenter.ContentTemplate>
                     <DataTemplate x:DataType="model:StudentViewModel">
                         <StackPanel>
-                            <TextBlock Text="New Student" Style="{StaticResource TitleTextBlockStyle}"/>
+                            <TextBlock Text="New/Edit Student" Style="{StaticResource TitleTextBlockStyle}"/>
                             <!--<Button Height="100" Width="100" Background="LightGray" Content="Add photo" Margin="0,24" Click="AddPhotoButton_Click"/>-->
                             <TextBox x:Name="FirstName" Header= "First Name" Margin="0,24,0,0" PlaceholderText="First name" MaxLength="32" Width="400" HorizontalAlignment="Left" Text="{x:Bind FirstName, Mode=TwoWay}"/>
                             <TextBox x:Name="LastName" Header="Last Name" Margin="0,24,0,0" PlaceholderText="Last name" MaxLength="50" Width="400" HorizontalAlignment="Left" Text="{x:Bind LastName, Mode=TwoWay}" />
