@@ -64,21 +64,21 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
         }
         
 
-        private void OnItemClick(object sender, ItemClickEventArgs e)
-        {
-            MainViewModel.StudentViewModel = e.ClickedItem as StudentViewModel;
-            MainViewModel.StudentViewModel.RefreshStudentsSubjects();
-            MasterListView.SelectionMode = ListViewSelectionMode.Single;
-            MasterListView.IsItemClickEnabled = true;
-            DetailContentPresenter.Visibility = Visibility.Visible;
-            RelativePanel.Visibility = Visibility.Collapsed;
-            AddItemBtn.Visibility = Visibility.Visible;
-            EditItemBtn.Visibility = Visibility.Visible;
-            DeleteItemBtn.Visibility = Visibility.Visible;
-            CancelSelectionBtn.Visibility = Visibility.Visible;
-            SaveBtn.Visibility = Visibility.Collapsed;
+        //private void OnItemClick(object sender, ItemClickEventArgs e)
+        //{
+        //    MainViewModel.StudentViewModel = e.ClickedItem as StudentViewModel;
+        //    MainViewModel.StudentViewModel.RefreshStudentsSubjects();
+        //    MasterListView.SelectionMode = ListViewSelectionMode.Single;
+        //    MasterListView.IsItemClickEnabled = true;
+        //    DetailContentPresenter.Visibility = Visibility.Visible;
+        //    RelativePanel.Visibility = Visibility.Collapsed;
+        //    AddItemBtn.Visibility = Visibility.Visible;
+        //    EditItemBtn.Visibility = Visibility.Visible;
+        //    DeleteItemBtn.Visibility = Visibility.Visible;
+        //    CancelSelectionBtn.Visibility = Visibility.Visible;
+        //    SaveBtn.Visibility = Visibility.Collapsed;
 
-        }
+        //}
         
 
         #region Commands

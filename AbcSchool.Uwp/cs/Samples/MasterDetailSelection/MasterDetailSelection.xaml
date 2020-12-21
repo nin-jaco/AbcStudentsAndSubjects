@@ -98,10 +98,9 @@
                   IsItemClickEnabled="True"
                   ShowsScrollingPlaceholders="False"
                   ItemTemplate="{StaticResource ContactListViewTemplate }"
-                  ItemClick="OnItemClick"
                   Grid.Row="1"
                   ItemsSource="{x:Bind MainViewModel.Students}"
-                  SelectedItem="{x:Bind MainViewModel.StudentViewModel, Mode=TwoWay}">
+                  >
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -116,27 +115,28 @@
                 BorderThickness="1,0,0,0"
                 Padding="24,0"
                 BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}"
-                Content="{x:Bind MainViewModel.StudentViewModel, Mode=OneWay}">
+                
+                >
                 <ContentPresenter.ContentTemplate>
-                    <DataTemplate x:DataType="vm:StudentViewModel">
+                    <DataTemplate x:DataType="vm:MainViewModel">
                         <StackPanel>
                             <TextBlock Style="{ThemeResource TitleTextBlockStyle}"
                                    Margin="0,8"       
-                                   Text="{x:Bind FirstName}"/>
+                                   Text="{x:Bind StudentViewModel.FirstName, Mode=OneWay}"/>
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
                                    Margin="0,9" 
-                                   Text="{x:Bind LastName}" />
+                                   Text="{x:Bind StudentViewModel.LastName, Mode=OneWay}" />
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
                                    Margin="0,9" 
-                                   Text="{x:Bind Mobile}" />
+                                   Text="{x:Bind StudentViewModel.Mobile, Mode=OneWay}" />
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
                                    Margin="0,9" 
-                                   Text="{x:Bind Email}" />
-                            <ListView x:Name="listView" HorizontalAlignment="Center" Height="235" Margin="51,10,0,0" 
-                                      VerticalAlignment="Top" ItemsSource="{x:Bind CheckList}" Visibility="Visible" >
-                                <ListView.ItemTemplate>
-                                    <DataTemplate x:Name="subjectListTemplate2" x:DataType="model:CheckListItem">
-                                        <CheckBox x:Name="chkitems2" Content="{Binding Text, Mode=OneWay}" IsChecked="{Binding IsSelected, Mode=OneWay }">
+                                   Text="{x:Bind StudentViewModel.Email, Mode=OneWay}" />
+                            <ListView x:Name="listView2" HorizontalAlignment="Center" Height="235" Margin="51,10,0,0" 
+                                      VerticalAlignment="Top" ItemsSource="{x:Bind StudentViewModel.CheckList, Mode=OneWay}" >
+                                <ListView.ItemTemplate >
+                                    <DataTemplate x:Name="subjectListTemplate" x:DataType="model:CheckListItem">
+                                        <CheckBox x:Name="chkitems" Content="{Binding Text, Mode=OneWay}" IsChecked="{Binding IsSelected, Mode=TwoWay }">
                                         </CheckBox>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>

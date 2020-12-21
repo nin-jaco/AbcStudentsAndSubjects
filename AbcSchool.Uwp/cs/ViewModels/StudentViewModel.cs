@@ -21,6 +21,7 @@ namespace ABCSchool.Uwp.ViewModels
         public StudentViewModel(Student model = null)
         {
             Model = model ?? new Student();
+            CheckList = new List<CheckListItem>();
         }
 
 
@@ -104,6 +105,20 @@ namespace ABCSchool.Uwp.ViewModels
                 if (value != Model.Email)
                 {
                     Model.Email = value;
+                    IsModified = true;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public ICollection<StudentsSubjects> StudentsSubjects 
+        {
+            get => Model.StudentsSubjects;
+            set
+            {
+                if (value != Model.StudentsSubjects)
+                {
+                    Model.StudentsSubjects = value;
                     IsModified = true;
                     OnPropertyChanged();
                 }
@@ -238,12 +253,12 @@ namespace ABCSchool.Uwp.ViewModels
         /// Gets the collection of the Student's subjects.
         /// </summary>
 
-        private ObservableCollection<SubjectViewModel> _selectedSubjects;
-        public ObservableCollection<SubjectViewModel> SelectedSubjects
-        {
-            get => _selectedSubjects;
-            set => Set(ref _selectedSubjects, value);
-        }
+        //private ObservableCollection<SubjectViewModel> _selectedSubjects;
+        //public ObservableCollection<SubjectViewModel> SelectedSubjects
+        //{
+        //    get => _selectedSubjects;
+        //    set => Set(ref _selectedSubjects, value);
+        //}
 
         private List<CheckListItem> _checkList;
         public List<CheckListItem> CheckList
@@ -280,10 +295,9 @@ namespace ABCSchool.Uwp.ViewModels
                     CheckList.Add(new CheckListItem
                     {
                         Id = subject.Id, Text = subject.Name,
-                        IsSelected = selected.Select(p => p.Id).Contains(subject.Id)
+                        IsSelected = selected?.Select(p => p.Id).Contains(subject.Id) ?? false
                     });
                 }
-                
 
                 IsLoading = false;
             });
