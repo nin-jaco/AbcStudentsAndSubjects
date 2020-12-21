@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using ABCSchool.Models;
+using ABCSchool.Uwp.Model;
 using ABCSchool.Uwp.Services;
 using ABCSchool.Uwp.ViewModels;
 
@@ -14,7 +15,6 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
 {
     public sealed partial class MasterDetailSelection : Page
     {
-        //public MainViewModel ViewModel => App.ViewModel;
 
         public MasterDetailSelection()
         {
@@ -84,6 +84,9 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
         #region Commands
         private void AddItem(object sender, RoutedEventArgs e)
         {
+            MainViewModel.StudentViewModel = new StudentViewModel();
+            MainViewModel.StudentViewModel.RefreshStudentsSubjects();
+            MainViewModel.StudentViewModel.CheckList = MainViewModel.Subjects;
             MasterListView.IsItemClickEnabled = false;
             MainViewModel.StudentViewModel.IsInEdit = true;
             MainViewModel.StudentViewModel.IsNewStudent = true;
@@ -157,12 +160,8 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
 
         private void SaveBtn_OnClickSelection(object sender, RoutedEventArgs e)
         {
-            if (MainViewModel != null) MainViewModel.StudentViewModel.EndEdit();
-            //else
-            //{
-            //    ViewModel.StudentViewModel = new StudentViewModel(new Student{Email = RelativePanel.Children[0].});
-            //}
-
+            if (MainViewModel?.StudentViewModel != null) MainViewModel.StudentViewModel.EndEdit();
+            
             MasterListView.SelectionMode = ListViewSelectionMode.Single;
             MasterListView.IsItemClickEnabled = true;
             DetailContentPresenter.Visibility = Visibility.Collapsed;

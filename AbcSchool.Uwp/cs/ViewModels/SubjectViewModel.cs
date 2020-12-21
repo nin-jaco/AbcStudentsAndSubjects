@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using ABCSchool.Models;
+using ABCSchool.Uwp.Model;
 
 namespace ABCSchool.Uwp.ViewModels
 {
@@ -89,7 +90,7 @@ namespace ABCSchool.Uwp.ViewModels
             if (IsNewSubject)
             {
                 IsNewSubject = false;
-                App.ViewModel.SelectedSubjects.Add(this);
+                App.ViewModel.Subjects.Add(new CheckListItem{Id= SubjectModel.Id, Text = SubjectModel.Name});
                 await App.SubjectService.PostAsJsonAsync(SubjectModel);
                 return;
             }

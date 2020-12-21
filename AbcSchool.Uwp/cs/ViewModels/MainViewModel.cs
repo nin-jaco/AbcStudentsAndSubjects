@@ -20,12 +20,10 @@ namespace ABCSchool.Uwp.ViewModels
         public MainViewModel()
         {
             Task.Run(GetStudentListAsync);
-            Task.Run(GetSubjectListAsync);
+            Task.Run(GetSubjectListItemsAsync);
             StudentViewModel = new StudentViewModel(new Student());
             
         }
-
-        
 
         /// <summary>
         /// The collection of students in the list. 
@@ -33,14 +31,9 @@ namespace ABCSchool.Uwp.ViewModels
         public ObservableCollection<StudentViewModel> Students { get; }
             = new ObservableCollection<StudentViewModel>();
 
-        
+        public ObservableCollection<CheckListItem> Subjects { get; }
+            = new ObservableCollection<CheckListItem>();
 
-        //private StudentViewModel _selectedStudent;
-        //public StudentViewModel SelectedStudent
-        //{
-        //    get => _selectedStudent;
-        //    set => Set(ref _selectedStudent , value);
-        //}
 
         private StudentViewModel _studentViewModel;
         public StudentViewModel StudentViewModel
@@ -48,22 +41,6 @@ namespace ABCSchool.Uwp.ViewModels
             get => _studentViewModel;
             set => Set(ref _studentViewModel, value);
         }
-
-
-
-        private ObservableCollection<SubjectViewModel> _selectedSubjects;
-        public ObservableCollection<SubjectViewModel> SelectedSubjects
-        {
-            get => _selectedSubjects;
-            set => Set(ref _selectedSubjects, value);
-        }
-
-        //private ObservableCollection<SubjectViewModel> _allSubjects;
-        //public ObservableCollection<SubjectViewModel> AllSubjects
-        //{
-        //    get => _allSubjects;
-        //    set => Set(ref _allSubjects, value);
-        //}
 
         private bool _isLoading = false;
 
@@ -100,7 +77,7 @@ namespace ABCSchool.Uwp.ViewModels
             });
         }
 
-        public async Task GetSubjectListAsync()
+        public async Task GetSubjectListItemsAsync()
         {
             await DispatcherHelper.ExecuteOnUIThreadAsync(() => IsLoading = true);
 
@@ -112,24 +89,13 @@ namespace ABCSchool.Uwp.ViewModels
 
             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
-                StudentViewModel.CheckList?.Clear();
-                if(StudentViewModel.CheckList == null) StudentViewModel.CheckList = new List<CheckListItem>();
+                Subjects.Clear();
                 foreach (var c in subjects)
                 {
-                    StudentViewModel.CheckList.Add(new CheckListItem
-                    {
-                        Id = c.Id,
-                        Text = c.Name,
-                        IsSelected = false
-                    });
+                    Subjects.Add(new CheckListItem{Id = c.Id, Text = c.Name});
                 }
                 IsLoading = false;
             });
-        }
-
-        public StudentViewModel CreateEmptyModel()
-        {
-            return new StudentViewModel(new Student()) { IsNewStudent = true };
         }
 
         /// <summary>

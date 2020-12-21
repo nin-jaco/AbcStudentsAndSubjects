@@ -21,7 +21,7 @@ namespace ABCSchool.Uwp.ViewModels
         public StudentViewModel(Student model = null)
         {
             Model = model ?? new Student();
-            CheckList = new List<CheckListItem>();
+            CheckList = new ObservableCollection<CheckListItem>();
         }
 
 
@@ -260,8 +260,8 @@ namespace ABCSchool.Uwp.ViewModels
         //    set => Set(ref _selectedSubjects, value);
         //}
 
-        private List<CheckListItem> _checkList;
-        public List<CheckListItem> CheckList
+        private ObservableCollection<CheckListItem> _checkList;
+        public ObservableCollection<CheckListItem> CheckList
         {
             get => _checkList;
             set => Set(ref _checkList, value);
@@ -284,18 +284,20 @@ namespace ABCSchool.Uwp.ViewModels
 
             var selected = await App.StudentSubjectService.GetByStudentIdAsync(Model.Id);
             var allSubjects = await App.SubjectService.GetAllAsync();
+            var selectedIds = selected?.Select(p => p.Id).ToList();
 
             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
                 CheckList?.Clear();
+                if(CheckList ==null) CheckList = new ObservableCollection<CheckListItem>();
 
                 foreach (var subject in allSubjects)
                 {
-                    CheckList = new List<CheckListItem>();
+                    
                     CheckList.Add(new CheckListItem
                     {
                         Id = subject.Id, Text = subject.Name,
-                        IsSelected = selected?.Select(p => p.Id).Contains(subject.Id) ?? false
+                        IsSelected = selectedIds?.Contains(subject.Id) ?? false
                     });
                 }
 
