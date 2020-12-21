@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using ABCSchool.Models;
-using ABCSchool.Uwp.ViewModels;
-using Microsoft.Toolkit.Uwp.Helpers;
 
-namespace ABCSchool.Uwp.Model
+namespace ABCSchool.Uwp.ViewModels
 {
     public class SubjectViewModel : BindableBase, IEditableObject
     {

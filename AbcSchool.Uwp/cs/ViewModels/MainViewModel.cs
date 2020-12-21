@@ -2,11 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using ABCSchool.Models;
-using ABCSchool.Uwp.Services;
-using ABCSchool.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp.Helpers;
 
-namespace ABCSchool.Uwp.Model
+namespace ABCSchool.Uwp.ViewModels
 {
     /// <summary>
     /// Provides data and commands accessible to the entire app.  
@@ -20,6 +18,7 @@ namespace ABCSchool.Uwp.Model
         {
             Task.Run(GetStudentListAsync);
             Task.Run(GetSubjectListAsync);
+            StudentViewModel = new StudentViewModel(new Student());
         }
 
         
@@ -33,25 +32,21 @@ namespace ABCSchool.Uwp.Model
         public ObservableCollection<SubjectViewModel> Subjects { get; }
             = new ObservableCollection<SubjectViewModel>();
 
-        private StudentViewModel _selectedStudent;
-        /// <summary>
-        /// Gets or sets the selected customer, or null if no customer is selected. 
-        /// </summary>
-        public StudentViewModel SelectedStudent
+        //private StudentViewModel _selectedStudent;
+        //public StudentViewModel SelectedStudent
+        //{
+        //    get => _selectedStudent;
+        //    set => Set(ref _selectedStudent , value);
+        //}
+
+        private StudentViewModel _studentViewModel;
+        public StudentViewModel StudentViewModel
         {
-            get => _selectedStudent;
-            set => Set(ref _selectedStudent, value);
+            get => _studentViewModel;
+            set => Set(ref _studentViewModel, value);
         }
 
-        private StudentViewModel _newEditStudent;
-        /// <summary>
-        /// Gets or sets the selected customer, or null if no customer is selected. 
-        /// </summary>
-        public StudentViewModel NewEditStudent
-        {
-            get => _newEditStudent ?? SelectedStudent ?? new StudentViewModel(new Student());
-            set => Set(ref _newEditStudent, value);
-        }
+        
 
         private SubjectViewModel _selectedSubject;
         public SubjectViewModel SelectedSubject
@@ -116,6 +111,11 @@ namespace ABCSchool.Uwp.Model
             });
         }
 
+        public StudentViewModel CreateEmptyModel()
+        {
+            return new StudentViewModel(new Student()) { IsNewStudent = true };
+        }
+
         /// <summary>
         /// Saves any modified Students and reloads the student list from the database.
         /// </summary>
@@ -125,7 +125,7 @@ namespace ABCSchool.Uwp.Model
             {
                 IsLoading = true;
                 foreach (var modifiedStudent in Students
-                    .Where(customer => customer.IsModified).Select(student => student.StudentModel))
+                    .Where(customer => customer.IsModified).Select(student => student.Model))
                 {
                     await App.StudentService.PutAsJsonAsync(modifiedStudent);
                 }

@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using ABCSchool.Models;
-using ABCSchool.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp.Helpers;
 
-namespace ABCSchool.Uwp.Model
+namespace ABCSchool.Uwp.ViewModels
 {
     /// <summary>
     /// Provides a bindable wrapper for the Student model class, encapsulating various services for access by the UI.
@@ -17,28 +15,25 @@ namespace ABCSchool.Uwp.Model
         /// <summary>
         /// Initializes a new instance of the StudentViewModel class that wraps a Student object.
         /// </summary>
-        public StudentViewModel(Student studentModel = null)
+        public StudentViewModel(Student model = null)
         {
-            StudentModel = studentModel ?? new Student
-            {
-                Email = "", FirstName = "", Id = 0, LastName = "", Mobile = "",
-                StudentsSubjects = new List<StudentsSubjects>()
-            };
+            Model = model ?? new Student();
         }
 
-        private Student _studentModel;
+
+        private Student _model;
 
         /// <summary>
         /// Gets or sets the underlying Student object.
         /// </summary>
-        public Student StudentModel
+        public Student Model
         {
-            get => _studentModel;
+            get => _model;
             set
             {
-                if (_studentModel != value)
+                if (_model != value)
                 {
-                    _studentModel = value;
+                    _model = value;
                     RefreshStudentsSubjects();
 
                     // Raise the PropertyChanged event for all properties.
@@ -52,12 +47,12 @@ namespace ABCSchool.Uwp.Model
         /// </summary>
         public string FirstName
         {
-            get => StudentModel.FirstName;
+            get => Model.FirstName;
             set
             {
-                if (value != StudentModel.FirstName)
+                if (value != Model.FirstName)
                 {
-                    StudentModel.FirstName = value;
+                    Model.FirstName = value;
                     IsModified = true;
                     OnPropertyChanged();
                 }
@@ -69,12 +64,12 @@ namespace ABCSchool.Uwp.Model
         /// </summary>
         public string LastName
         {
-            get => StudentModel.LastName;
+            get => Model.LastName;
             set
             {
-                if (value != StudentModel.LastName)
+                if (value != Model.LastName)
                 {
-                    StudentModel.LastName = value;
+                    Model.LastName = value;
                     IsModified = true;
                     OnPropertyChanged();
                 }
@@ -87,12 +82,12 @@ namespace ABCSchool.Uwp.Model
         /// </summary>
         public string Mobile
         {
-            get => StudentModel.Mobile;
+            get => Model.Mobile;
             set
             {
-                if (value != StudentModel.Mobile)
+                if (value != Model.Mobile)
                 {
-                    StudentModel.Mobile = value;
+                    Model.Mobile = value;
                     IsModified = true;
                     OnPropertyChanged();
                 }
@@ -104,12 +99,12 @@ namespace ABCSchool.Uwp.Model
         /// </summary>
         public string Email
         {
-            get => StudentModel.Email;
+            get => Model.Email;
             set
             {
-                if (value != StudentModel.Email)
+                if (value != Model.Email)
                 {
-                    StudentModel.Email = value;
+                    Model.Email = value;
                     IsModified = true;
                     OnPropertyChanged();
                 }
@@ -184,11 +179,11 @@ namespace ABCSchool.Uwp.Model
             {
                 IsNewStudent = false;
                 App.ViewModel.Students.Add(this);
-                await App.StudentService.PostAsJsonAsync(StudentModel);
+                await App.StudentService.PostAsJsonAsync(Model);
                 return;
             }
 
-            await App.StudentService.PutAsJsonAsync(StudentModel);
+            await App.StudentService.PutAsJsonAsync(Model);
         }
 
         /// <summary>
@@ -235,7 +230,7 @@ namespace ABCSchool.Uwp.Model
         public async Task RefreshStudentAsync()
         {
             RefreshStudentsSubjects();
-            StudentModel = await App.StudentService.GetByIdAsync(StudentModel.Id);
+            Model = await App.StudentService.GetByIdAsync(Model.Id);
         }
 
         /// <summary>
@@ -253,7 +248,7 @@ namespace ABCSchool.Uwp.Model
                 IsLoading = true;
             });
 
-            var studentSubjects = await App.StudentSubjectService.GetByStudentIdAsync(StudentModel.Id);
+            var studentSubjects = await App.StudentSubjectService.GetByStudentIdAsync(Model.Id);
 
             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
@@ -287,7 +282,7 @@ namespace ABCSchool.Uwp.Model
 
         public async void DeleteAsync()
         {
-            await App.StudentService.DeleteAsync(StudentModel.Id);
+            await App.StudentService.DeleteAsync(Model.Id);
             App.ViewModel.Students.Remove(this);
         }
     }

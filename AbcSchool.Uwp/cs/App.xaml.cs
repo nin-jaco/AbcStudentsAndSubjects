@@ -6,8 +6,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using ABCSchool.Models;
 using ABCSchool.Uwp.Interfaces;
-using ABCSchool.Uwp.Model;
 using ABCSchool.Uwp.Services;
+using ABCSchool.Uwp.ViewModels;
 
 namespace ABCSchool.Uwp
 {

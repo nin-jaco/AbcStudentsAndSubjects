@@ -100,9 +100,9 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\MainViewModel.cs" />
-    <Compile Include="Model\StudentViewModel.cs" />
-    <Compile Include="Model\SubjectViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\StudentViewModel.cs" />
+    <Compile Include="ViewModels\SubjectViewModel.cs" />
     <Compile Include="SamplesPane.xaml.cs">
       <DependentUpon>SamplesPane.xaml</DependentUpon>
     </Compile>
@@ -114,6 +114,7 @@
     <Compile Include="Services\StudentsSubjectsService.cs" />
     <Compile Include="Services\SubjectService.cs" />
     <Compile Include="ViewModels\BindableBase.cs" />
+    <Compile Include="ViewModels\Converters.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -220,6 +221,9 @@
       <Project>{e9aa0649-ee94-4d25-9026-a02fb58db229}</Project>
       <Name>ABCSchool.Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
