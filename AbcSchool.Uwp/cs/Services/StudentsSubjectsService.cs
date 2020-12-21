@@ -88,7 +88,7 @@ namespace ABCSchool.Uwp.Services
             }
         }
 
-        public async Task<bool> PostAsJsonAsync(StudentsSubjects item)
+        public async Task<StudentsSubjects> PostAsJsonAsync(StudentsSubjects item)
         {
             try
             {
@@ -96,15 +96,24 @@ namespace ABCSchool.Uwp.Services
                 {
                     if (item == null)
                     {
-                        return false;
+                        throw new InvalidOperationException("Item is null");
                     }
 
                     var serializedItem = JsonConvert.SerializeObject(item);
 
                     var response = await client.PostAsync(ServiceUri,
                         new StringContent(serializedItem, Encoding.UTF8, "application/json"));
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var result = await response.Content.ReadAsStringAsync();
+                        return JsonConvert.DeserializeObject<StudentsSubjects>(result);
+                    }
+                    else
+                    {
+                        Console.WriteLine(response.StatusCode);
+                        return null;
+                    }
 
-                    return response.IsSuccessStatusCode;
                 }
             }
             catch (Exception e)

@@ -196,8 +196,9 @@ namespace ABCSchool.Uwp.ViewModels
             {
                 IsNewStudent = false;
                 var response = await App.StudentService.PostAsJsonAsync(Model);
-                if (response.IsSuccessStatusCode)
+                if (response != null)
                 {
+                    this.Model = response;
                     App.ViewModel.Students.Add(this);
                 }
             }
@@ -205,8 +206,14 @@ namespace ABCSchool.Uwp.ViewModels
             {
                 await App.StudentService.PutAsJsonAsync(Model);
             }
+
+            var studentSubjects = await App.StudentSubjectService.GetByStudentIdAsync(Model.Id);
+            //todo
             foreach (var item in subjects)
             {
+                var match = studentSubjects.Where(p => p.s == )
+                if(studentSubjects.Contains)
+                
                 Model.StudentsSubjects.Add(new StudentsSubjects { Student = this.Model, SubjectId = item.Id, Subject = await App.SubjectService.GetByIdAsync(item.Id) });
             }
         }

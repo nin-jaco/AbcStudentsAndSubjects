@@ -97,7 +97,7 @@ namespace ABCSchool.Uwp.Services
                 {
                     if (item == null)
                     {
-                        return null;
+                        throw new InvalidOperationException("Item is null");
                     }
 
                     var serializedItem = JsonConvert.SerializeObject(item);
@@ -106,11 +106,8 @@ namespace ABCSchool.Uwp.Services
                         new StringContent(serializedItem, Encoding.UTF8, "application/json"));
                     if (response.IsSuccessStatusCode)
                     {
-
                         var result = await response.Content.ReadAsStringAsync();
-
-                        Student student = JsonConvert.DeserializeObject<Student>(result);
-                        return student;
+                        return JsonConvert.DeserializeObject<Student>(result);
                     }
                     else
                     {
