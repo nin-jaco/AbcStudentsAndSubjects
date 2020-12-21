@@ -136,7 +136,7 @@
                                       VerticalAlignment="Top" ItemsSource="{x:Bind StudentViewModel.CheckList, Mode=OneWay}" >
                                 <ListView.ItemTemplate >
                                     <DataTemplate x:Name="subjectListTemplate" x:DataType="model:CheckListItem">
-                                        <CheckBox x:Name="chkitems" Content="{Binding Text, Mode=OneWay}" IsChecked="{Binding IsSelected, Mode=TwoWay }">
+                                        <CheckBox x:Name="chkitems" Content="{Binding Text, Mode=OneWay}" IsChecked="{Binding IsSelected, Mode=OneWay }" IsEnabled="False">
                                         </CheckBox>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>

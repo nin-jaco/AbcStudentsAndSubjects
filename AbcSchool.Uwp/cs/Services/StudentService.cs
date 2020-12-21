@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -88,7 +89,7 @@ namespace ABCSchool.Uwp.Services
             }
         }
 
-        public async Task<bool> PostAsJsonAsync(Student item)
+        public async Task<Student> PostAsJsonAsync(Student item)
         {
             try
             {
@@ -96,15 +97,27 @@ namespace ABCSchool.Uwp.Services
                 {
                     if (item == null)
                     {
-                        return false;
+                        return null;
                     }
 
                     var serializedItem = JsonConvert.SerializeObject(item);
 
                     var response = await client.PostAsync(ServiceUri,
                         new StringContent(serializedItem, Encoding.UTF8, "application/json"));
+                    if (response.IsSuccessStatusCode)
+                    {
 
-                    return response.IsSuccessStatusCode;
+                        var result = await response.Content.ReadAsStringAsync();
+
+                        Student student = JsonConvert.DeserializeObject<Student>(result);
+                        return student;
+                    }
+                    else
+                    {
+                        Console.WriteLine(response.StatusCode);
+                        return null;
+                    }
+                    
                 }
             }
             catch (Exception e)

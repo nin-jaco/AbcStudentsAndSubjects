@@ -174,5 +174,16 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
         }
 
         #endregion
+
+       /* private void Chkitems_OnChecked(object sender, RoutedEventArgs e)
+        {
+            var item = sender as CheckListItem;
+            MainViewModel.StudentViewModel.StudentsSubjects.Add(new StudentsSubjects{SubjectId = item.Id, Student = MainViewModel.StudentViewModel.Model});
+        }
+
+        private void Chkitems_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }*/
     }
 }

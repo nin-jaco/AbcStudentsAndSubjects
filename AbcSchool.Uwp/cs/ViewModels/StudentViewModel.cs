@@ -189,17 +189,26 @@ namespace ABCSchool.Uwp.ViewModels
         /// </summary>
         public async Task SaveAsync()
         {
+            var subjects = this.CheckList.Where(p => p.IsSelected);
             IsInEdit = false;
             IsModified = false;
             if (IsNewStudent)
             {
                 IsNewStudent = false;
-                App.ViewModel.Students.Add(this);
-                await App.StudentService.PostAsJsonAsync(Model);
-                return;
+                var response = await App.StudentService.PostAsJsonAsync(Model);
+                if (response.IsSuccessStatusCode)
+                {
+                    App.ViewModel.Students.Add(this);
+                }
             }
-
-            await App.StudentService.PutAsJsonAsync(Model);
+            else
+            {
+                await App.StudentService.PutAsJsonAsync(Model);
+            }
+            foreach (var item in subjects)
+            {
+                Model.StudentsSubjects.Add(new StudentsSubjects { Student = this.Model, SubjectId = item.Id, Subject = await App.SubjectService.GetByIdAsync(item.Id) });
+            }
         }
 
         /// <summary>
