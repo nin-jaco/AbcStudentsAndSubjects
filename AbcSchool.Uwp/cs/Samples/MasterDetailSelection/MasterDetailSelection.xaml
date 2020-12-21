@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uwp="using:ABCSchool.Uwp"
+    xmlns:model="using:ABCSchool.Uwp.Model"
     NavigationCacheMode="Enabled"    
     mc:Ignorable="d">
 
@@ -131,6 +132,15 @@
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
                                    Margin="0,9" 
                                    Text="{x:Bind Email}" />
+                            <ListView x:Name="listView" HorizontalAlignment="Center" Height="235" Margin="51,10,0,0" 
+                                      VerticalAlignment="Top" ItemsSource="{x:Bind CheckList}" Visibility="Visible" >
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:Name="subjectListTemplate2" x:DataType="model:CheckListItem">
+                                        <CheckBox x:Name="chkitems2" Content="{Binding Text, Mode=OneWay}" IsChecked="{Binding IsSelected, Mode=OneWay }">
+                                        </CheckBox>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
                         </StackPanel>
                     </DataTemplate>
                 </ContentPresenter.ContentTemplate>
@@ -140,7 +150,8 @@
             </ContentPresenter>
 
             <RelativePanel Margin="8,0,0,12" x:Name="RelativePanel" Padding="24,0" Grid.Column="1" Grid.RowSpan="2">
-                <TextBox
+                <StackPanel>
+                    <TextBox
                                 x:Name="FirstName"
                                 MinWidth="120"
                                 Margin="0,8,16,8"
@@ -149,7 +160,7 @@
                                 RelativePanel.AlignLeftWithPanel="True"
                                 Text="{x:Bind MainViewModel.StudentViewModel.FirstName, Mode=TwoWay}"
                                 Visibility="{x:Bind MainViewModel.StudentViewModel.IsInEdit, Mode=OneWay}" />
-                <TextBox
+                    <TextBox
                                 x:Name="LastName"
                                 MinWidth="120"
                                 Margin="0,8,16,8"
@@ -158,7 +169,7 @@
                                 RelativePanel.RightOf="FirstName"
                                 Text="{x:Bind MainViewModel.StudentViewModel.LastName, Mode=TwoWay}"
                                 Visibility="{x:Bind MainViewModel.StudentViewModel.IsInEdit, Mode=OneWay}" />
-                <TextBox
+                    <TextBox
                                 x:Name="Mobile"
                                 Grid.Row="1"
                                 MinWidth="120"
@@ -168,7 +179,7 @@
                                 RelativePanel.AlignLeftWithPanel="True"
                                 RelativePanel.Below="FirstName"
                                 Text="{x:Bind MainViewModel.StudentViewModel.Mobile, Mode=TwoWay}" />
-                <TextBox
+                    <TextBox
                                 x:Name="Email"
                                 Grid.Column="2"
                                 MinWidth="160"
@@ -178,6 +189,16 @@
                                 RelativePanel.Below="FirstName"
                                 RelativePanel.RightOf="Mobile"
                                 Text="{x:Bind MainViewModel.StudentViewModel.Email, Mode=TwoWay}" />
+                    <ListView x:Name="listView" HorizontalAlignment="Center" Height="235" Margin="51,10,0,0" 
+                          VerticalAlignment="Top" ItemsSource="{x:Bind MainViewModel.StudentViewModel.CheckList, Mode=OneWay}" >
+                        <ListView.ItemTemplate >
+                            <DataTemplate x:Name="subjectListTemplate" x:DataType="model:CheckListItem">
+                                <CheckBox x:Name="chkitems" Content="{Binding Text, Mode=OneWay}" IsChecked="{Binding IsSelected, Mode=TwoWay }">
+                                </CheckBox>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
             </RelativePanel>
         </Grid>
         <uwp:SamplesPane x:Name="MySamplesPane" Grid.ColumnSpan="2" Grid.RowSpan="2"/>

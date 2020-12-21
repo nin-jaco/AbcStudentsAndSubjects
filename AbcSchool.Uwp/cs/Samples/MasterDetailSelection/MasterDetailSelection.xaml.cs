@@ -50,6 +50,7 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
             if (MasterListView.SelectedItems.Count == 1)
             {
                 MainViewModel.StudentViewModel = MasterListView.SelectedItem as StudentViewModel;
+                MainViewModel.StudentViewModel.RefreshStudentsSubjects();
                 MasterListView.SelectionMode = ListViewSelectionMode.Single;
                 MasterListView.IsItemClickEnabled = true;
                 DetailContentPresenter.Visibility = Visibility.Visible;
@@ -66,6 +67,7 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
         private void OnItemClick(object sender, ItemClickEventArgs e)
         {
             MainViewModel.StudentViewModel = e.ClickedItem as StudentViewModel;
+            MainViewModel.StudentViewModel.RefreshStudentsSubjects();
             MasterListView.SelectionMode = ListViewSelectionMode.Single;
             MasterListView.IsItemClickEnabled = true;
             DetailContentPresenter.Visibility = Visibility.Visible;

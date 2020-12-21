@@ -59,30 +59,7 @@ namespace ABCSchool.Uwp.Services
             return result;
         }
 
-        public async Task<List<StudentsSubjects>> GetByStudentIdAsync(int id, string accessToken = null, bool forceRefresh = false)
-        {
-            List<StudentsSubjects> result = default;
-
-
-            try
-            {
-                using (var handler = new HttpClientHandler { AllowAutoRedirect = false })
-                using (HttpClient client = new HttpClient(handler))
-                {
-                    var json = await client.GetStringAsync(ServiceUri += $@"/studentId/{id}");
-                    result = await Task.Run(() => JsonConvert.DeserializeObject<List<StudentsSubjects>>(json));
-
-
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-            return result;
-        }
+        
 
         public async Task<bool> PostAsync(StudentsSubjects item)
         {
@@ -228,6 +205,31 @@ namespace ABCSchool.Uwp.Services
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        public async Task<List<Subject>> GetByStudentIdAsync(int id, string accessToken = null,
+            bool forceRefresh = false)
+        {
+            List<Subject> result = default;
+
+            try
+            {
+                using (var handler = new HttpClientHandler { AllowAutoRedirect = false })
+                using (HttpClient client = new HttpClient(handler))
+                {
+                    var json = await client.GetStringAsync($@"{ServiceUri}/studentid/{id}");
+                    result = await Task.Run(() => JsonConvert.DeserializeObject<List<Subject>>(json));
+
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return result;
         }
     }
 

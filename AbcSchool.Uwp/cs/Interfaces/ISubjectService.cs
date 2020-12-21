@@ -14,5 +14,6 @@ namespace ABCSchool.Uwp.Interfaces
         Task<bool> PutAsJsonAsync(T item);
         Task<bool> DeleteAsync();
         void AddAuthorizationHeader(string token);
+        
     }
 }

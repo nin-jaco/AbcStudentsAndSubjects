@@ -14,6 +14,7 @@ namespace ABCSchool.Uwp.Interfaces
         Task<bool> PutAsJsonAsync(T item);
         Task<bool> DeleteAsync();
         void AddAuthorizationHeader(string token);
-        Task<List<StudentsSubjects>> GetByStudentIdAsync(int id, string accessToken = null, bool forceRefresh = false);
+        Task<List<Subject>> GetByStudentIdAsync(int id, string accessToken = null, bool forceRefresh = false);
+
     }
 }

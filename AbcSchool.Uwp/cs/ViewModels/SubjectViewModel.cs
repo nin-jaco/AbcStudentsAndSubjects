@@ -89,7 +89,7 @@ namespace ABCSchool.Uwp.ViewModels
             if (IsNewSubject)
             {
                 IsNewSubject = false;
-                App.ViewModel.Subjects.Add(this);
+                App.ViewModel.SelectedSubjects.Add(this);
                 await App.SubjectService.PostAsJsonAsync(SubjectModel);
                 return;
             }

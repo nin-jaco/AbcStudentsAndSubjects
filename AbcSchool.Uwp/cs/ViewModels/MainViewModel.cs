@@ -1,7 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using ABCSchool.Models;
+using ABCSchool.Uwp.Model;
 using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace ABCSchool.Uwp.ViewModels
@@ -17,8 +20,9 @@ namespace ABCSchool.Uwp.ViewModels
         public MainViewModel()
         {
             Task.Run(GetStudentListAsync);
-            Task.Run(GetSubjectListAsync);
+            //Task.Run(GetSubjectListAsync);
             StudentViewModel = new StudentViewModel(new Student());
+            StudentViewModel.CheckList = new List<CheckListItem>();
         }
 
         
@@ -29,8 +33,6 @@ namespace ABCSchool.Uwp.ViewModels
         public ObservableCollection<StudentViewModel> Students { get; }
             = new ObservableCollection<StudentViewModel>();
 
-        public ObservableCollection<SubjectViewModel> Subjects { get; }
-            = new ObservableCollection<SubjectViewModel>();
 
         //private StudentViewModel _selectedStudent;
         //public StudentViewModel SelectedStudent
@@ -46,14 +48,21 @@ namespace ABCSchool.Uwp.ViewModels
             set => Set(ref _studentViewModel, value);
         }
 
-        
 
-        private SubjectViewModel _selectedSubject;
-        public SubjectViewModel SelectedSubject
+
+        private ObservableCollection<SubjectViewModel> _selectedSubjects;
+        public ObservableCollection<SubjectViewModel> SelectedSubjects
         {
-            get => _selectedSubject;
-            set => Set(ref _selectedSubject, value);
+            get => _selectedSubjects;
+            set => Set(ref _selectedSubjects, value);
         }
+
+        //private ObservableCollection<SubjectViewModel> _allSubjects;
+        //public ObservableCollection<SubjectViewModel> AllSubjects
+        //{
+        //    get => _allSubjects;
+        //    set => Set(ref _allSubjects, value);
+        //}
 
         private bool _isLoading = false;
 
@@ -90,26 +99,26 @@ namespace ABCSchool.Uwp.ViewModels
             });
         }
 
-        public async Task GetSubjectListAsync()
-        {
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() => IsLoading = true);
+        //public async Task GetSubjectListAsync()
+        //{
+        //    await DispatcherHelper.ExecuteOnUIThreadAsync(() => IsLoading = true);
 
-            var subjects = await App.SubjectService.GetAllAsync();
-            if (subjects == null)
-            {
-                return;
-            }
+        //    var subjects = await App.SubjectService.GetAllAsync();
+        //    if (subjects == null)
+        //    {
+        //        return;
+        //    }
 
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-            {
-                Subjects.Clear();
-                foreach (var c in subjects)
-                {
-                    Subjects.Add(new SubjectViewModel(c));
-                }
-                IsLoading = false;
-            });
-        }
+        //    await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+        //    {
+        //        AllSubjects.Clear();
+        //        foreach (var c in subjects)
+        //        {
+        //            AllSubjects.Add(new SubjectViewModel(c));
+        //        }
+        //        IsLoading = false;
+        //    });
+        //}
 
         public StudentViewModel CreateEmptyModel()
         {

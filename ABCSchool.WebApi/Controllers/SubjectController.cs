@@ -14,10 +14,14 @@ namespace ABCSchool.WebApi.Controllers
     [ApiController]
     public class SubjectController : BaseController<Subject, SubjectRepository>, ISubjectController
     {
+        private readonly StudentRepository _repository;
+
         public SubjectController(SubjectRepository repository) : base(repository)
         {
 
         }
+
+        
     }
 
     public interface ISubjectController 

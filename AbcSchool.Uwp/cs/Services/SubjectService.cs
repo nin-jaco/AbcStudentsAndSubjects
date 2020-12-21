@@ -12,7 +12,7 @@ namespace ABCSchool.Uwp.Services
 {
     public class SubjectService : ISubjectService<Subject>
     {
-        private static string ServiceUri { get; set; } = "https://localhost:44318/api/subject";
+        private const string ServiceUri = @"https://localhost:44318/api/subject";
 
         public async Task<List<Subject>> GetAllAsync(string accessToken = null, bool forceRefresh = false)
         {
@@ -45,7 +45,7 @@ namespace ABCSchool.Uwp.Services
                 using (var handler = new HttpClientHandler { AllowAutoRedirect = false })
                 using (HttpClient client = new HttpClient(handler))
                 {
-                    var json = await client.GetStringAsync(ServiceUri += $@"/{id}");
+                    var json = await client.GetStringAsync($@"{ServiceUri}/{id}");
                     result = await Task.Run(() => JsonConvert.DeserializeObject<Subject>(json));
                 }
             }
@@ -180,6 +180,8 @@ namespace ABCSchool.Uwp.Services
                 throw;
             }
         }
+
+        
 
         // Add this to all public methods
         public void AddAuthorizationHeader(string token)

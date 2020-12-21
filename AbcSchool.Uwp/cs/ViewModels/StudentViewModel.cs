@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using ABCSchool.Models;
+using ABCSchool.Uwp.Model;
 using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace ABCSchool.Uwp.ViewModels
@@ -22,10 +25,6 @@ namespace ABCSchool.Uwp.ViewModels
 
 
         private Student _model;
-
-        /// <summary>
-        /// Gets or sets the underlying Student object.
-        /// </summary>
         public Student Model
         {
             get => _model;
@@ -120,37 +119,19 @@ namespace ABCSchool.Uwp.ViewModels
         public bool IsModified { get; set; }
 
         /// <summary>
-        /// Gets the collection of the Student's subjects.
-        /// </summary>
-        public ObservableCollection<StudentsSubjects> StudentsSubjects { get; } = new ObservableCollection<StudentsSubjects>();
-
-        private StudentsSubjects _selectedStudentsSubjects;
-
-        /// <summary>
-        /// Gets or sets the currently selected subject.
-        /// </summary>
-        public StudentsSubjects SelectedStudentsSubjects
-        {
-            get => _selectedStudentsSubjects;
-            set => Set(ref _selectedStudentsSubjects, value);
-        }
-
-        private bool _isLoading;
-
-        /// <summary>
         /// Gets or sets a value that indicates whether to show a progress bar. 
         /// </summary>
+        private bool _isLoading;
         public bool IsLoading
         {
             get => _isLoading;
             set => Set(ref _isLoading, value);
         }
 
-        private bool _isNewStudent;
-
         /// <summary>
         /// Gets or sets a value that indicates whether this is a new Student.
         /// </summary>
+        private bool _isNewStudent;
         public bool IsNewStudent
         {
             get => _isNewStudent;
@@ -158,14 +139,34 @@ namespace ABCSchool.Uwp.ViewModels
         }
 
         private bool _isInEdit = false;
-
-        /// <summary>
-        /// Gets or sets a value that indicates whether the Student data is being edited.
-        /// </summary>
         public bool IsInEdit
         {
             get => _isInEdit;
             set => Set(ref _isInEdit, value);
+        }
+
+        /// <summary>
+        /// Called when a bound DataGrid control causes the Student to enter edit mode.
+        /// </summary>
+        public void BeginEdit()
+        {
+            // Not used.
+        }
+
+        /// <summary>
+        /// Called when a bound DataGrid control cancels the edits that have been made to a Student.
+        /// </summary>
+        public async void CancelEdit() => await CancelEditsAsync();
+
+        /// <summary>
+        /// Called when a bound DataGrid control commits the edits that have been made to a Student.
+        /// </summary>
+        public async void EndEdit() => await SaveAsync();
+
+        public async void DeleteAsync()
+        {
+            await App.StudentService.DeleteAsync(Model.Id);
+            App.ViewModel.Students.Remove(this);
         }
 
         /// <summary>
@@ -234,6 +235,24 @@ namespace ABCSchool.Uwp.ViewModels
         }
 
         /// <summary>
+        /// Gets the collection of the Student's subjects.
+        /// </summary>
+
+        private ObservableCollection<SubjectViewModel> _selectedSubjects;
+        public ObservableCollection<SubjectViewModel> SelectedSubjects
+        {
+            get => _selectedSubjects;
+            set => Set(ref _selectedSubjects, value);
+        }
+
+        private List<CheckListItem> _checkList;
+        public List<CheckListItem> CheckList
+        {
+            get => _checkList;
+            set => Set(ref _checkList, value);
+        }
+
+        /// <summary>
         /// Resets the Student detail fields to the current values.
         /// </summary>
         public void RefreshStudentsSubjects() => Task.Run(LoadStudentsSubjectsAsync);
@@ -248,42 +267,28 @@ namespace ABCSchool.Uwp.ViewModels
                 IsLoading = true;
             });
 
-            var studentSubjects = await App.StudentSubjectService.GetByStudentIdAsync(Model.Id);
+            var selected = await App.StudentSubjectService.GetByStudentIdAsync(Model.Id);
+            var allSubjects = await App.SubjectService.GetAllAsync();
 
             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
-                StudentsSubjects.Clear();
-                foreach (var subject in studentSubjects)
+                CheckList?.Clear();
+
+                foreach (var subject in allSubjects)
                 {
-                    StudentsSubjects.Add(subject);
+                    CheckList = new List<CheckListItem>();
+                    CheckList.Add(new CheckListItem
+                    {
+                        Id = subject.Id, Text = subject.Name,
+                        IsSelected = selected.Select(p => p.Id).Contains(subject.Id)
+                    });
                 }
+                
 
                 IsLoading = false;
             });
         }
 
-        /// <summary>
-        /// Called when a bound DataGrid control causes the Student to enter edit mode.
-        /// </summary>
-        public void BeginEdit()
-        {
-            // Not used.
-        }
-
-        /// <summary>
-        /// Called when a bound DataGrid control cancels the edits that have been made to a Student.
-        /// </summary>
-        public async void CancelEdit() => await CancelEditsAsync();
-
-        /// <summary>
-        /// Called when a bound DataGrid control commits the edits that have been made to a Student.
-        /// </summary>
-        public async void EndEdit() => await SaveAsync();
-
-        public async void DeleteAsync()
-        {
-            await App.StudentService.DeleteAsync(Model.Id);
-            App.ViewModel.Students.Remove(this);
-        }
+        
     }
 }
