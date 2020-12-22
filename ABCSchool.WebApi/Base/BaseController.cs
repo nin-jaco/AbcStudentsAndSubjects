@@ -14,11 +14,11 @@ namespace ABCSchool.WebApi.Base
         where TEntity : class, IEntity
         where TRepository : IRepository<TEntity>
     {
-        private readonly TRepository repository;
+        private readonly TRepository _repository;
 
         public BaseController(TRepository repository)
         {
-            this.repository = repository;
+            this._repository = repository;
         }
 
 
@@ -26,14 +26,14 @@ namespace ABCSchool.WebApi.Base
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TEntity>>> Get()
         {
-            return await repository.GetAll();
+            return await _repository.GetAll();
         }
 
         // GET: api/[controller]/5
         [HttpGet("{id}")]
         public virtual async Task<ActionResult<TEntity>> Get(int id)
         {
-            var item = await repository.Get(id);
+            var item = await _repository.Get(id);
             if (item == null)
             {
                 return NotFound();
@@ -49,7 +49,7 @@ namespace ABCSchool.WebApi.Base
             {
                 return BadRequest();
             }
-            await repository.Update(item);
+            await _repository.Update(item);
             return NoContent();
         }
 
@@ -57,7 +57,7 @@ namespace ABCSchool.WebApi.Base
         [HttpPost]
         public async Task<ActionResult<TEntity>> Post(TEntity item)
         {
-            await repository.Add(item);
+            await _repository.Add(item);
             return CreatedAtAction("Get", new { id = item.Id }, item);
         }
 
@@ -65,7 +65,7 @@ namespace ABCSchool.WebApi.Base
         [HttpDelete("{id}")]
         public async Task<ActionResult<TEntity>> Delete(int id)
         {
-            var item = await repository.Delete(id);
+            var item = await _repository.Delete(id);
             if (item == null)
             {
                 return NotFound();

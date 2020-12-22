@@ -207,12 +207,12 @@ namespace ABCSchool.Uwp.ViewModels
                 await App.StudentService.PutAsJsonAsync(Model);
             }
 
-            var studentSubjects = await App.StudentSubjectService.GetByStudentIdAsync(Model.Id);
+            var selectedSubjects = await App.StudentSubjectService.GetByStudentIdAsync(Model.Id);
             //todo
             foreach (var item in subjects)
             {
-                var match = studentSubjects.Where(p => p.s == )
-                if(studentSubjects.Contains)
+                var match = selectedSubjects.Where(p => p.s == )
+                if(selectedSubjects.Contains)
                 
                 Model.StudentsSubjects.Add(new StudentsSubjects { Student = this.Model, SubjectId = item.Id, Subject = await App.SubjectService.GetByIdAsync(item.Id) });
             }
