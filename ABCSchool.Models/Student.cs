@@ -19,12 +19,7 @@ namespace ABCSchool.Models
         public string Email { get; set; }
         [DataType(DataType.PhoneNumber)]
         public string Mobile { get; set; }
-
-        public Student()
-        {
-            StudentsSubjects = new HashSet<StudentsSubjects>();
-        }
-
-        public virtual ICollection<StudentsSubjects> StudentsSubjects { get; set; }
+        
+        public IList<StudentSubject> StudentSubjects { get; set; }
     }
 }

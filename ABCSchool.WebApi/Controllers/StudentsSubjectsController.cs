@@ -11,7 +11,7 @@ namespace ABCSchool.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentsSubjectsController : BaseController<StudentsSubjects, StudentsSubjectsRepository>
+    public class StudentsSubjectsController : BaseController<StudentSubject, StudentsSubjectsRepository>
     {
         private StudentsSubjectsRepository _repository;
         public StudentsSubjectsController(StudentsSubjectsRepository repository) : base(repository)

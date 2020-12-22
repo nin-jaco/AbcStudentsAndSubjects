@@ -47,7 +47,7 @@ namespace ABCSchool.Data.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("ABCSchool.Models.StudentsSubjects", b =>
+            modelBuilder.Entity("ABCSchool.Models.StudentSubject", b =>
                 {
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
@@ -55,16 +55,11 @@ namespace ABCSchool.Data.Migrations
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.HasKey("StudentId", "SubjectId");
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("StudentsSubjects");
+                    b.ToTable("StudentSubjects");
                 });
 
             modelBuilder.Entity("ABCSchool.Models.Subject", b =>
@@ -131,16 +126,16 @@ namespace ABCSchool.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ABCSchool.Models.StudentsSubjects", b =>
+            modelBuilder.Entity("ABCSchool.Models.StudentSubject", b =>
                 {
-                    b.HasOne("ABCSchool.Models.Subject", "Subject")
-                        .WithMany("StudentsSubjects")
+                    b.HasOne("ABCSchool.Models.Student", "Student")
+                        .WithMany("StudentSubjects")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ABCSchool.Models.Student", "Student")
-                        .WithMany("StudentsSubjects")
+                    b.HasOne("ABCSchool.Models.Subject", "Subject")
+                        .WithMany("StudentSubjects")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

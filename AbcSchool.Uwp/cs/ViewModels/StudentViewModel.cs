@@ -111,14 +111,14 @@ namespace ABCSchool.Uwp.ViewModels
             }
         }
 
-        public ICollection<StudentsSubjects> StudentsSubjects 
+        public IList<StudentSubject> StudentSubjects
         {
-            get => Model.StudentsSubjects;
+            get => Model.StudentSubjects;
             set
             {
-                if (value != Model.StudentsSubjects)
+                if (value != Model.StudentSubjects)
                 {
-                    Model.StudentsSubjects = value;
+                    Model.StudentSubjects = value;
                     IsModified = true;
                     OnPropertyChanged();
                 }
@@ -207,15 +207,15 @@ namespace ABCSchool.Uwp.ViewModels
                 await App.StudentService.PutAsJsonAsync(Model);
             }
 
-            var selectedSubjects = await App.StudentSubjectService.GetByStudentIdAsync(Model.Id);
-            //todo
+            //var selectedSubjects = await App.StudentSubjectService.GetByStudentIdAsync(Model.Id);
+            /*//todo
             foreach (var item in subjects)
             {
-                var match = selectedSubjects.Where(p => p.s == )
+                var add = selectedSubjects.Where(p => p.s == )
                 if(selectedSubjects.Contains)
                 
                 Model.StudentsSubjects.Add(new StudentsSubjects { Student = this.Model, SubjectId = item.Id, Subject = await App.SubjectService.GetByIdAsync(item.Id) });
-            }
+            }*/
         }
 
         /// <summary>
@@ -298,9 +298,8 @@ namespace ABCSchool.Uwp.ViewModels
                 IsLoading = true;
             });
 
-            var selected = await App.StudentSubjectService.GetByStudentIdAsync(Model.Id);
             var allSubjects = await App.SubjectService.GetAllAsync();
-            var selectedIds = selected?.Select(p => p.Id).ToList();
+            var selectedIds = StudentSubjects?.Select(p => p.SubjectId).ToList();
 
             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {

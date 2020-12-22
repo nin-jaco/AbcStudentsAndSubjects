@@ -23,7 +23,7 @@ namespace ABCSchool.Uwp
         /// </summary>
         public static IStudentService<Student> StudentService { get; private set; } = new StudentService();
         public static ISubjectService<Subject> SubjectService { get; private set; } = new SubjectService();
-        public static IStudentsSubjectsService<StudentsSubjects> StudentSubjectService { get; private set; } = new StudentsSubjectService();
+        //public static IStudentsSubjectsService<StudentsSubjects> StudentSubjectService { get; private set; } = new StudentsSubjectService();
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().

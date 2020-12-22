@@ -8,23 +8,11 @@ namespace ABCSchool.Data
     {
         public DbSet<Student> Students { get; set; }
         public DbSet<Subject> Subjects { get; set; }
-        public DbSet<StudentsSubjects> StudentsSubjects { get; set; }
+        public DbSet<StudentSubject> StudentSubjects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<StudentsSubjects>()
-                .HasKey(x => new { x.StudentId, x.SubjectId });
-
-            modelBuilder.Entity<StudentsSubjects>()
-                .HasOne(x => x.Student)
-                .WithMany(y => y.StudentsSubjects)
-                .HasForeignKey(y => y.SubjectId);
-
-            modelBuilder.Entity<StudentsSubjects>()
-                .HasOne(x => x.Subject)
-                .WithMany(y => y.StudentsSubjects)
-                .HasForeignKey(y => y.StudentId);
-
+            modelBuilder.Entity<StudentSubject>().HasKey(sc => new { sc.StudentId, sc.SubjectId });
 
             modelBuilder.Entity<Subject>()
                 .HasData(

@@ -2,7 +2,7 @@
 
 namespace ABCSchool.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class CreateSchoolDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -36,7 +36,7 @@ namespace ABCSchool.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StudentsSubjects",
+                name: "StudentSubjects",
                 columns: table => new
                 {
                     StudentId = table.Column<int>(nullable: false),
@@ -44,17 +44,17 @@ namespace ABCSchool.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StudentsSubjects", x => new { x.StudentId, x.SubjectId });
+                    table.PrimaryKey("PK_StudentSubjects", x => new { x.StudentId, x.SubjectId });
                     table.ForeignKey(
-                        name: "FK_StudentsSubjects_Subjects_StudentId",
+                        name: "FK_StudentSubjects_Students_StudentId",
                         column: x => x.StudentId,
-                        principalTable: "Subjects",
+                        principalTable: "Students",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_StudentsSubjects_Students_SubjectId",
+                        name: "FK_StudentSubjects_Subjects_SubjectId",
                         column: x => x.SubjectId,
-                        principalTable: "Students",
+                        principalTable: "Subjects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -76,21 +76,21 @@ namespace ABCSchool.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentsSubjects_SubjectId",
-                table: "StudentsSubjects",
+                name: "IX_StudentSubjects_SubjectId",
+                table: "StudentSubjects",
                 column: "SubjectId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "StudentsSubjects");
-
-            migrationBuilder.DropTable(
-                name: "Subjects");
+                name: "StudentSubjects");
 
             migrationBuilder.DropTable(
                 name: "Students");
+
+            migrationBuilder.DropTable(
+                name: "Subjects");
         }
     }
 }

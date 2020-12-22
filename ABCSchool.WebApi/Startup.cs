@@ -38,7 +38,7 @@ namespace ABCSchool.WebApi
             services.AddScoped<ISubjectRepository, SubjectRepository>(_ => new SubjectRepository(db));*/
             services.AddScoped<StudentRepository>();
             services.AddScoped<SubjectRepository>();
-            services.AddScoped<StudentsSubjectsRepository>();
+            //services.AddScoped<StudentsSubjectsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
