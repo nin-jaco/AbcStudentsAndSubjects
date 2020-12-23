@@ -9,14 +9,14 @@ using ABCSchool.Uwp.Interfaces;
 using ABCSchool.Uwp.Services;
 using ABCSchool.Uwp.ViewModels;
 
-namespace ABCSchool.Uwp
+namespace ABCSchool
 {
     sealed partial class App : Application
     {
         /// <summary>
         /// Gets the app-wide MainViewModel singleton instance.
         /// </summary>
-        public static MainViewModel ViewModel { get; } = new MainViewModel();
+        public static MainViewModel MainViewModel { get; } = new MainViewModel();
 
         /// <summary>
         /// Pipeline for interacting with backend service or database.

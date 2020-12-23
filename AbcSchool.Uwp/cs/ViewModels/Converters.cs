@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-namespace ABCSchool.Uwp.ViewModels
+namespace ABCSchool.ViewModels
 {
     public static class Converters
     {

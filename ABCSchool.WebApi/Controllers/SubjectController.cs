@@ -7,6 +7,7 @@ using ABCSchool.Data.Interfaces;
 using ABCSchool.WebApi.Base;
 using ABCSchool.Data.Repositories;
 using ABCSchool.Models;
+using ABCSchool.WebApi.Interfaces;
 
 namespace ABCSchool.WebApi.Controllers
 {
@@ -14,17 +15,13 @@ namespace ABCSchool.WebApi.Controllers
     [ApiController]
     public class SubjectController : BaseController<Subject, SubjectRepository>, ISubjectController
     {
-        private readonly StudentRepository _repository;
+        private readonly SubjectRepository _repository;
 
         public SubjectController(SubjectRepository repository) : base(repository)
         {
-
+            _repository = repository;
         }
 
         
-    }
-
-    public interface ISubjectController 
-    {
     }
 }

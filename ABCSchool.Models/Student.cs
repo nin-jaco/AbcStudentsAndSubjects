@@ -20,6 +20,6 @@ namespace ABCSchool.Models
         [DataType(DataType.PhoneNumber)]
         public string Mobile { get; set; }
         
-        public IList<StudentSubject> StudentSubjects { get; set; }
+        public IList<StudentSubject> StudentSubjects { get; set; } = new List<StudentSubject>();
     }
 }

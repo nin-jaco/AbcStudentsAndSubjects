@@ -2,15 +2,15 @@
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
 
   <Identity 
-    Name="Microsoft.SDKSamples.ListView.CS" 
+    Name="AbcSchool.Uwp.CS" 
         Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="059bc473-6a0d-42e8-9414-2ffe3f831fdd" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   
   <Properties>
-    <DisplayName>XAML ListView/GridView CS Samples</DisplayName>
-    <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
+    <DisplayName>Manage Students and Subjects</DisplayName>
+    <PublisherDisplayName>Private</PublisherDisplayName>
     <Logo>Assets\StoreLogo-sdk.png</Logo>
   </Properties>
   <Dependencies>
@@ -20,12 +20,12 @@
     <Resource Language="x-generate" />
   </Resources>
   <Applications>
-    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="ListViewSample.App">
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="ABCSchool.App">
       <uap:VisualElements 
-        DisplayName="XAML ListView/GridView CS sample" 
+        DisplayName="ABC School Manager" 
         Square150x150Logo="Assets\squaretile-sdk.png" 
         Square44x44Logo="Assets\SmallTile-sdk.png" 
-        Description="XAML ListView/GridView CS sample" 
+        Description="Manange Users and Subjects" 
         BackgroundColor="#00b2f0">
         <uap:DefaultTile>
           <uap:ShowNameOnTiles>

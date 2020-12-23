@@ -7,18 +7,17 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using ABCSchool.Models;
-using ABCSchool.Uwp.Model;
 using ABCSchool.Uwp.Services;
 using ABCSchool.Uwp.ViewModels;
 
-namespace ABCSchool.Uwp.Samples.MasterDetailSelection
+namespace ABCSchool
 {
-    public sealed partial class MasterDetailSelection : Page
+    public sealed partial class ManageStudentPage : Page
     {
-
-        public MasterDetailSelection()
+        public ManageStudentPage()
         {
             this.InitializeComponent();
+            MainViewModel = App.
             this.Loaded += OnLoaded;
         }
 
@@ -33,8 +32,8 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
         }
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            MasterListView.SelectionMode = ListViewSelectionMode.Single;
-            MasterListView.IsItemClickEnabled = true;
+            StudentListView.SelectionMode = ListViewSelectionMode.Single;
+            StudentListView.IsItemClickEnabled = true;
             DetailContentPresenter.Visibility = Visibility.Collapsed;
             RelativePanel.Visibility = Visibility.Collapsed;
             AddItemBtn.Visibility = Visibility.Visible;
@@ -47,12 +46,12 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
         
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (MasterListView.SelectedItems.Count == 1)
+            if (StudentListView.SelectedItems.Count == 1)
             {
-                MainViewModel.StudentViewModel = MasterListView.SelectedItem as StudentViewModel;
-                MainViewModel.StudentViewModel.RefreshStudentsSubjects();
-                MasterListView.SelectionMode = ListViewSelectionMode.Single;
-                MasterListView.IsItemClickEnabled = true;
+                App.MainViewModel.StudentViewModel = StudentListView.SelectedItem as StudentViewModel;
+                //MainViewModel.RefreshSubjectList();
+                StudentListView.SelectionMode = ListViewSelectionMode.Single;
+                StudentListView.IsItemClickEnabled = true;
                 DetailContentPresenter.Visibility = Visibility.Visible;
                 RelativePanel.Visibility = Visibility.Collapsed;
                 AddItemBtn.Visibility = Visibility.Visible;
@@ -62,34 +61,15 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
                 SaveBtn.Visibility = Visibility.Collapsed;
             }
         }
-        
-
-        //private void OnItemClick(object sender, ItemClickEventArgs e)
-        //{
-        //    MainViewModel.StudentViewModel = e.ClickedItem as StudentViewModel;
-        //    MainViewModel.StudentViewModel.RefreshStudentsSubjects();
-        //    MasterListView.SelectionMode = ListViewSelectionMode.Single;
-        //    MasterListView.IsItemClickEnabled = true;
-        //    DetailContentPresenter.Visibility = Visibility.Visible;
-        //    RelativePanel.Visibility = Visibility.Collapsed;
-        //    AddItemBtn.Visibility = Visibility.Visible;
-        //    EditItemBtn.Visibility = Visibility.Visible;
-        //    DeleteItemBtn.Visibility = Visibility.Visible;
-        //    CancelSelectionBtn.Visibility = Visibility.Visible;
-        //    SaveBtn.Visibility = Visibility.Collapsed;
-
-        //}
-        
 
         #region Commands
         private void AddItem(object sender, RoutedEventArgs e)
         {
-            MainViewModel.StudentViewModel = new StudentViewModel();
-            MainViewModel.StudentViewModel.RefreshStudentsSubjects();
-            MainViewModel.StudentViewModel.CheckList = MainViewModel.Subjects;
-            MasterListView.IsItemClickEnabled = false;
-            MainViewModel.StudentViewModel.IsInEdit = true;
-            MainViewModel.StudentViewModel.IsNewStudent = true;
+            App.MainViewModel.StudentViewModel = new StudentViewModel();
+            //MainViewModel.RefreshSubjectList();
+            StudentListView.IsItemClickEnabled = false;
+            App.MainViewModel.StudentViewModel.IsInEdit = true;
+            App.MainViewModel.StudentViewModel.IsNewStudent = true;
             DetailContentPresenter.Visibility = Visibility.Collapsed;
             RelativePanel.Visibility = Visibility.Visible;
             AddItemBtn.Visibility = Visibility.Collapsed;
@@ -100,29 +80,29 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
         }
         private void DeleteItem(object sender, RoutedEventArgs e)
         {
-            if (MainViewModel.StudentViewModel != null)
+            if (App.MainViewModel.StudentViewModel != null)
             {
-                MainViewModel.StudentViewModel.DeleteAsync();
-                MainViewModel.Students.Remove(MainViewModel.StudentViewModel);
+                App.MainViewModel.StudentViewModel.DeleteAsync();
+                App.MainViewModel.Students.Remove(App.MainViewModel.StudentViewModel);
 
-                if (MasterListView.Items.Count > 0)
+                if (StudentListView.Items.Count > 0)
                 {
-                    MasterListView.SelectedIndex = 0;
-                    MainViewModel.StudentViewModel = MasterListView.SelectedItem as StudentViewModel;
+                    StudentListView.SelectedIndex = 0;
+                    App.MainViewModel.StudentViewModel = StudentListView.SelectedItem as StudentViewModel;
                 }
                 else
                 {
                     // Details view is collapsed, in case there is not items.
                     DetailContentPresenter.Visibility = Visibility.Collapsed;
-                    MainViewModel.StudentViewModel = null;
+                    App.MainViewModel.StudentViewModel = null;
                 }
             }
         }
         
         private void CancelSelection(object sender, RoutedEventArgs e)
         {
-            MasterListView.SelectionMode = ListViewSelectionMode.Single;
-            MasterListView.IsItemClickEnabled = true;
+            StudentListView.SelectionMode = ListViewSelectionMode.Single;
+            StudentListView.IsItemClickEnabled = true;
             DetailContentPresenter.Visibility = Visibility.Collapsed;
             RelativePanel.Visibility = Visibility.Collapsed;
             AddItemBtn.Visibility = Visibility.Visible;
@@ -130,22 +110,20 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
             DeleteItemBtn.Visibility = Visibility.Collapsed;
             CancelSelectionBtn.Visibility = Visibility.Collapsed;
             SaveBtn.Visibility = Visibility.Collapsed;
-            MainViewModel.StudentViewModel.CancelEdit();
+            App.MainViewModel.StudentViewModel.CancelEdit();
         }
         
-        
-
         private void EditItemBtn_OnClickItem(object sender, RoutedEventArgs e)
         {
-            if (MasterListView.SelectedIndex != -1)
+            if (StudentListView.SelectedIndex != -1)
             {
-                if (MasterListView.Items.Count > 0)
+                if (StudentListView.Items.Count > 0)
                 {
-                    MainViewModel.StudentViewModel = MasterListView.SelectedItem as StudentViewModel;
-                    MainViewModel.StudentViewModel.StartEdit();
+                    App.MainViewModel.StudentViewModel = StudentListView.SelectedItem as StudentViewModel;
+                    if (App.MainViewModel.StudentViewModel != null) App.MainViewModel.StudentViewModel.StartEdit();
 
                     //MasterListView.SelectionMode = ListViewSelectionMode.None;
-                    MasterListView.IsItemClickEnabled = false;
+                    StudentListView.IsItemClickEnabled = false;
                     DetailContentPresenter.Visibility = Visibility.Collapsed;
                     RelativePanel.Visibility = Visibility.Visible;
                     AddItemBtn.Visibility = Visibility.Collapsed;
@@ -160,10 +138,10 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
 
         private void SaveBtn_OnClickSelection(object sender, RoutedEventArgs e)
         {
-            if (MainViewModel?.StudentViewModel != null) MainViewModel.StudentViewModel.EndEdit();
+            if (App.MainViewModel?.StudentViewModel != null) App.MainViewModel.StudentViewModel.EndEdit();
             
-            MasterListView.SelectionMode = ListViewSelectionMode.Single;
-            MasterListView.IsItemClickEnabled = true;
+            StudentListView.SelectionMode = ListViewSelectionMode.Single;
+            StudentListView.IsItemClickEnabled = true;
             DetailContentPresenter.Visibility = Visibility.Collapsed;
             RelativePanel.Visibility = Visibility.Collapsed;
             AddItemBtn.Visibility = Visibility.Visible;
@@ -175,15 +153,6 @@ namespace ABCSchool.Uwp.Samples.MasterDetailSelection
 
         #endregion
 
-       /* private void Chkitems_OnChecked(object sender, RoutedEventArgs e)
-        {
-            var item = sender as CheckListItem;
-            MainViewModel.StudentViewModel.StudentsSubjects.Add(new StudentsSubjects{SubjectId = item.Id, Student = MainViewModel.StudentViewModel.Model});
-        }
-
-        private void Chkitems_OnUnchecked(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }*/
+        
     }
 }

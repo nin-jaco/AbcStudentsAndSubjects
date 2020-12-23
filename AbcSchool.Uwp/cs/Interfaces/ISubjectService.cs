@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using ABCSchool.Models;
 
-namespace ABCSchool.Uwp.Interfaces
+namespace ABCSchool.Interfaces
 {
     public interface ISubjectService<T> where T : IEntity
     {
@@ -14,6 +14,7 @@ namespace ABCSchool.Uwp.Interfaces
         Task<bool> PutAsJsonAsync(T item);
         Task<bool> DeleteAsync();
         void AddAuthorizationHeader(string token);
-        
+        Task<List<Subject>> GetByStudentIdAsync(int id, string accessToken = null, bool forceRefresh = false);
+
     }
 }

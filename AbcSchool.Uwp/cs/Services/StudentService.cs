@@ -9,7 +9,7 @@ using ABCSchool.Models;
 using ABCSchool.Uwp.Interfaces;
 using Newtonsoft.Json;
 
-namespace ABCSchool.Uwp.Services
+namespace ABCSchool.Services
 {
     public class StudentService : IStudentService<Student>
     {
@@ -216,6 +216,8 @@ namespace ABCSchool.Uwp.Services
                 throw;
             }
         }
+
+        
     }
 }
 

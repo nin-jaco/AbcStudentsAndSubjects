@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using ABCSchool.Models;
-using ABCSchool.Uwp.Model;
 using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace ABCSchool.Uwp.ViewModels
@@ -12,27 +11,20 @@ namespace ABCSchool.Uwp.ViewModels
     /// <summary>
     /// Provides data and commands accessible to the entire app.  
     /// </summary>
-    public class MainViewModel : BindableBase
+    public class MainViewModel : BindableBase, IEditableObject
     {
-        /// <summary>
-        /// Creates a new MainViewModel.
-        /// </summary>
         public MainViewModel()
         {
-            Task.Run(GetStudentListAsync);
-            Task.Run(GetSubjectListItemsAsync);
-            StudentViewModel = new StudentViewModel(new Student());
-            
+            this.Students = new ObservableCollection<StudentViewModel>();
+            this.Subjects = new ObservableCollection<SubjectViewModel>();
+            this.StudentViewModel = new StudentViewModel(new Student());
+            this.SubjectViewModel = new SubjectViewModel(new Subject());
         }
 
-        /// <summary>
-        /// The collection of students in the list. 
-        /// </summary>
-        public ObservableCollection<StudentViewModel> Students { get; }
-            = new ObservableCollection<StudentViewModel>();
 
-        public ObservableCollection<CheckListItem> Subjects { get; }
-            = new ObservableCollection<CheckListItem>();
+        public ObservableCollection<StudentViewModel> Students { get; } 
+
+        public ObservableCollection<SubjectViewModel> Subjects { get; } 
 
 
         private StudentViewModel _studentViewModel;
@@ -42,66 +34,65 @@ namespace ABCSchool.Uwp.ViewModels
             set => Set(ref _studentViewModel, value);
         }
 
-        private bool _isLoading = false;
+        private SubjectViewModel _subjectViewModel;
+        public SubjectViewModel SubjectViewModel
+        {
+            get => _subjectViewModel ?? new SubjectViewModel(new Subject());
+            set => Set(ref _subjectViewModel, value);
+        }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the Students list is currently being updated. 
-        /// </summary>
+
+
+        private bool _isLoading = false;
         public bool IsLoading
         {
             get => _isLoading;
             set => Set(ref _isLoading, value);
         }
 
-        /// <summary>
-        /// Gets the complete list of Students from the database.
-        /// </summary>
-        public async Task GetStudentListAsync()
+        public async void GetAllStudents() => await GetAllStudentsAsync();
+        public async Task GetAllStudentsAsync()
         {
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() => IsLoading = true);
-
-            var students = await App.StudentService.GetAllAsync();
-            if (students == null)
+            await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
             {
-                return;
-            }
-
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-            {
-                Students.Clear();
-                foreach (var c in students)
+                IsLoading = true;
+                var students = await App.StudentService.GetAllAsync();
+                if (students != null)
                 {
-                    Students.Add(new StudentViewModel(c));
+                    Students.Clear();
+                    foreach (var c in students)
+                    {
+                        Students.Add(new StudentViewModel(c));
+                    }
                 }
+                
                 IsLoading = false;
             });
+
         }
 
-        public async Task GetSubjectListItemsAsync()
+        public async void GetAllSubjects() => await GetAllSubjectsAsync();
+        public async Task GetAllSubjectsAsync()
         {
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() => IsLoading = true);
-
-            var subjects = await App.SubjectService.GetAllAsync();
-            if (subjects == null)
+            await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
             {
-                return;
-            }
-
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-            {
+                IsLoading = true;
+                var subjects = await App.SubjectService.GetAllAsync();
                 Subjects.Clear();
                 foreach (var c in subjects)
                 {
-                    Subjects.Add(new CheckListItem{Id = c.Id, Text = c.Name});
+                    Subjects.Add(new SubjectViewModel(c));
                 }
                 IsLoading = false;
             });
         }
+
+        
 
         /// <summary>
         /// Saves any modified Students and reloads the student list from the database.
         /// </summary>
-        public void Sync()
+        /*public void Sync()
         {
             Task.Run(async () =>
             {
@@ -115,6 +106,20 @@ namespace ABCSchool.Uwp.ViewModels
                 await GetStudentListAsync();
                 IsLoading = false;
             });
+        }*/
+        public void BeginEdit()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void CancelEdit()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void EndEdit()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

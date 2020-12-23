@@ -1,28 +1,34 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using ABCSchool.Models;
-using ABCSchool.Uwp.Model;
 
 namespace ABCSchool.Uwp.ViewModels
 {
     public class SubjectViewModel : BindableBase, IEditableObject
     {
-        public SubjectViewModel(Subject model = null) => SubjectModel = model ?? new Subject();
-
-        private Subject _subjectModel;
-
-        /// <summary>
-        /// Gets or sets the underlying Student object.
-        /// </summary>
-        public Subject SubjectModel
+        public SubjectViewModel(Subject model = null)
         {
-            get => _subjectModel;
+            Model = model ?? new Subject();
+            this.IsSelected = false;
+            this.IsModified = false;
+            this.Name = "";
+            this.IsModified = false;
+            this.IsLoading = false;
+            this.IsNewSubject = false;
+            this.IsInEdit = false;
+        }
+
+        private Subject _model;
+        public Subject Model
+        {
+            get => _model;
             set
             {
-                if (_subjectModel != value)
+                if (_model != value)
                 {
-                    _subjectModel = value;
+                    _model = value;
                     OnPropertyChanged(string.Empty);
                 }
             }
@@ -33,25 +39,38 @@ namespace ABCSchool.Uwp.ViewModels
         /// </summary>
         public string Name
         {
-            get => SubjectModel.Name;
+            get => Model.Name;
             set
             {
-                if (value != SubjectModel.Name)
+                if (value != Model.Name)
                 {
-                    SubjectModel.Name = value;
+                    Model.Name = value;
                     IsModified = true;
                     OnPropertyChanged();
                 }
             }
         }
 
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set
+            {
+                if (_isSelected != value)
+                {
+                    _isSelected = value;
+                    IsModified = true;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
+
         public bool IsModified { get; set; }
 
         private bool _isLoading;
-
-        /// <summary>
-        /// Gets or sets a value that indicates whether to show a progress bar. 
-        /// </summary>
         public bool IsLoading
         {
             get => _isLoading;
@@ -80,6 +99,20 @@ namespace ABCSchool.Uwp.ViewModels
             set => Set(ref _isInEdit, value);
         }
 
+        public IList<StudentSubject> StudentSubjects
+        {
+            get => Model.StudentSubjects;
+            set
+            {
+                if (value != Model.StudentSubjects)
+                {
+                    Model.StudentSubjects = value;
+                    IsModified = true;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         /// <summary>
         /// Saves Student data that has been edited.
         /// </summary>
@@ -90,12 +123,12 @@ namespace ABCSchool.Uwp.ViewModels
             if (IsNewSubject)
             {
                 IsNewSubject = false;
-                App.ViewModel.Subjects.Add(new CheckListItem{Id= SubjectModel.Id, Text = SubjectModel.Name});
-                await App.SubjectService.PostAsJsonAsync(SubjectModel);
+                App.MainViewModel.Subjects.Add(this);
+                await App.SubjectService.PostAsJsonAsync(Model);
                 return;
             }
 
-            await App.SubjectService.PutAsJsonAsync(SubjectModel);
+            await App.SubjectService.PutAsJsonAsync(Model);
         }
 
         /// <summary>
@@ -106,6 +139,28 @@ namespace ABCSchool.Uwp.ViewModels
         /// <summary>
         /// Cancels any in progress edits.
         /// </summary>
+        
+
+        /// <summary>
+        /// Enables edit mode.
+        /// </summary>
+        public void StartEdit() => IsInEdit = true;
+
+        
+        public async Task RefreshSubjectAsync()
+        {
+            Model = await App.SubjectService.GetByIdAsync(Model.Id);
+        }
+
+        /// <summary>
+        /// Called when a bound DataGrid control causes the Student to enter edit mode.
+        /// </summary>
+        public void BeginEdit()
+        {
+            // Not used.
+        }
+
+        public async void CancelEdit() => await CancelEditsAsync();
         public async Task CancelEditsAsync()
         {
             if (IsNewSubject)
@@ -126,40 +181,12 @@ namespace ABCSchool.Uwp.ViewModels
             IsInEdit = false;
             if (IsModified)
             {
-                await RefreshSubjectsAsync();
+                await RefreshSubjectAsync();
                 IsModified = false;
             }
         }
+        
 
-        /// <summary>
-        /// Enables edit mode.
-        /// </summary>
-        public void StartEdit() => IsInEdit = true;
-
-        /// <summary>
-        /// Reloads all of the Student data.
-        /// </summary>
-        public async Task RefreshSubjectsAsync()
-        {
-            SubjectModel = await App.SubjectService.GetByIdAsync(SubjectModel.Id);
-        }
-
-        /// <summary>
-        /// Called when a bound DataGrid control causes the Student to enter edit mode.
-        /// </summary>
-        public void BeginEdit()
-        {
-            // Not used.
-        }
-
-        /// <summary>
-        /// Called when a bound DataGrid control cancels the edits that have been made to a Student.
-        /// </summary>
-        public async void CancelEdit() => await CancelEditsAsync();
-
-        /// <summary>
-        /// Called when a bound DataGrid control commits the edits that have been made to a Student.
-        /// </summary>
         public async void EndEdit() => await SaveAsync();
     }
 }

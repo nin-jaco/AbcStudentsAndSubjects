@@ -10,8 +10,8 @@
     <ProjectGuid>{72CA5C89-394E-5737-8B1C-33CA812A5669}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ABCSchool.Uwp</RootNamespace>
-    <AssemblyName>ABCSchool.Uwp</AssemblyName>
+    <RootNamespace>ABCSchool</RootNamespace>
+    <AssemblyName>ABCSchool</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
@@ -54,6 +54,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -100,15 +101,14 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\CheckListItem.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\StudentViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModel.cs" />
     <Compile Include="SamplesPane.xaml.cs">
       <DependentUpon>SamplesPane.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Samples\MasterDetailSelection\MasterDetailSelection.xaml.cs">
-      <DependentUpon>MasterDetailSelection.xaml</DependentUpon>
+    <Compile Include="ManageStudentPage.xaml.cs">
+      <DependentUpon>ManageStudentPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\StudentService.cs" />
@@ -194,7 +194,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Samples\MasterDetailSelection\MasterDetailSelection.xaml">
+    <Page Include="ManageStudentPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -222,7 +222,9 @@
       <Name>ABCSchool.Models</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

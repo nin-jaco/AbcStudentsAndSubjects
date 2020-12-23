@@ -216,30 +216,7 @@ namespace ABCSchool.Uwp.Services
             }
         }
 
-        public async Task<List<Subject>> GetByStudentIdAsync(int id, string accessToken = null,
-            bool forceRefresh = false)
-        {
-            List<Subject> result = default;
-
-            try
-            {
-                using (var handler = new HttpClientHandler { AllowAutoRedirect = false })
-                using (HttpClient client = new HttpClient(handler))
-                {
-                    var json = await client.GetStringAsync($@"{ServiceUri}/studentid/{id}");
-                    result = await Task.Run(() => JsonConvert.DeserializeObject<List<Subject>>(json));
-
-
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-            return result;
-        }
+        
     }
 
 }

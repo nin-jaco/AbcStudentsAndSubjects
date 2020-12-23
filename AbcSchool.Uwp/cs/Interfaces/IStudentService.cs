@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using ABCSchool.Models;
 
-namespace ABCSchool.Uwp.Interfaces
+namespace ABCSchool.Interfaces
 {
     public interface IStudentService<T> where T : IEntity
     {

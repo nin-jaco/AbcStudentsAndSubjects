@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ABCSchool.Models", "ABCScho
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ABCSchool.WebApi", "ABCSchool.WebApi\ABCSchool.WebApi.csproj", "{6E0A66E8-1980-4A88-83D0-E2F06DA75FAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbcSchool.Uwp", "AbcSchool.Uwp\cs\AbcSchool.Uwp.csproj", "{72CA5C89-394E-5737-8B1C-33CA812A5669}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ABCSchool", "AbcSchool.Uwp\cs\ABCSchool.csproj", "{72CA5C89-394E-5737-8B1C-33CA812A5669}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

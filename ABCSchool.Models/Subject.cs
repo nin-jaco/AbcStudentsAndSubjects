@@ -12,6 +12,6 @@ namespace ABCSchool.Models
         [StringLength(150, MinimumLength = 1)]
         public string Name { get; set; }
 
-        public IList<StudentSubject> StudentSubjects { get; set; }
+        public IList<StudentSubject> StudentSubjects { get; set; } = new List<StudentSubject>();
     }
 }

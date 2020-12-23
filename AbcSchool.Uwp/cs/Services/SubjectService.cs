@@ -8,7 +8,7 @@ using ABCSchool.Models;
 using ABCSchool.Uwp.Interfaces;
 using Newtonsoft.Json;
 
-namespace ABCSchool.Uwp.Services
+namespace ABCSchool.Services
 {
     public class SubjectService : ISubjectService<Subject>
     {
@@ -213,6 +213,31 @@ namespace ABCSchool.Uwp.Services
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        public async Task<List<Subject>> GetByStudentIdAsync(int id, string accessToken = null,
+            bool forceRefresh = false)
+        {
+            List<Subject> result = default;
+
+            try
+            {
+                using (var handler = new HttpClientHandler { AllowAutoRedirect = false })
+                using (HttpClient client = new HttpClient(handler))
+                {
+                    var json = await client.GetStringAsync($@"{ServiceUri}/studentid/{id}");
+                    result = await Task.Run(() => JsonConvert.DeserializeObject<List<Subject>>(json));
+
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return result;
         }
     }
 }

@@ -1,8 +1,7 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using ABCSchool.Uwp.Samples.MasterDetailSelection;
 
-namespace ABCSchool.Uwp
+namespace ABCSchool
 {
     public sealed partial class SamplesPane : UserControl
     {
@@ -12,7 +11,7 @@ namespace ABCSchool.Uwp
         }
         private void NavigateToMasterDetailSelection(object sender, RoutedEventArgs e)
         {
-            ((Frame)Window.Current.Content).Navigate(typeof(MasterDetailSelection));
+            ((Frame)Window.Current.Content).Navigate(typeof(ManageStudentPage));
         }
         private void NavigateToHome(object sender, RoutedEventArgs e)
         {

@@ -1,7 +1,7 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace ABCSchool.Uwp
+namespace ABCSchool
 {
     /// <summary>
     /// This is the landing page used to navigate to all different scenarios.  See Solution Explorer
