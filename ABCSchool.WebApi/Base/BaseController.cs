@@ -3,8 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ABCSchool.Data.Interfaces;
-using ABCSchool.Models;
+using ABCSchool.Domain.Interfaces;
 
 namespace ABCSchool.WebApi.Base
 {
@@ -12,7 +11,7 @@ namespace ABCSchool.WebApi.Base
     [ApiController]
     public abstract class BaseController<TEntity, TRepository> : ControllerBase
         where TEntity : class, IEntity
-        where TRepository : IRepository<TEntity>
+        where TRepository : IGenericRepository<TEntity>
     {
         private readonly TRepository _repository;
 

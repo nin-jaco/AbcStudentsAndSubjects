@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using ABCSchool.Data.Base;
-using ABCSchool.Data.Interfaces;
-using ABCSchool.Models;
+using ABCSchool.Domain.Entities;
+using ABCSchool.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ABCSchool.Data.Repositories
 {
-    public class StudentRepository : RepositoryBase<Student, AbcSchoolDbContext>, IStudentRepository
+    public class StudentRepository : GenericRepository<Student, AbcSchoolDbContext>, IStudentRepository
     {
         private readonly AbcSchoolDbContext _context;
         public StudentRepository(AbcSchoolDbContext context) : base(context)
@@ -19,7 +19,7 @@ namespace ABCSchool.Data.Repositories
 
         public override async Task<Student> Get(int id)
         {
-            return await _context.Students.Include("StudentSubjects").FirstOrDefaultAsync(p => p.Id ==id);
+            return await _context.Students.FirstOrDefaultAsync(p => p.Id ==id);
         }
     }
 }

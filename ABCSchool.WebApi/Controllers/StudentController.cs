@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ABCSchool.Data.Repositories;
 using ABCSchool.WebApi.Base;
-using ABCSchool.Models;
+using ABCSchool.Domain.Entities;
 
 namespace ABCSchool.WebApi.Controllers
 {

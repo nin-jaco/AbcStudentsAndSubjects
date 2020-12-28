@@ -11,9 +11,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ABCSchool.Data;
-using ABCSchool.Data.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using ABCSchool.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
+using ABCSchool.Domain.Interfaces;
+using ABCSchool.Data.UnitOfWorks;
 
 namespace ABCSchool.WebApi
 {
@@ -30,24 +31,25 @@ namespace ABCSchool.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            string dbConn = Configuration.GetSection("ConnectionStrings").GetValue<string>("dbContext");
-            services.AddDbContext<AbcSchoolDbContext>(options => options.UseSqlServer(dbConn));
-            /*var db = new AbcSchoolDbContext(new DbContextOptionsBuilder<AbcSchoolDbContext>()
-                .UseSqlServer(dbConn).Options);
-            services.AddScoped<IStudentRepository, StudentRepository>(_ => new StudentRepository(db));
-            services.AddScoped<ISubjectRepository, SubjectRepository>(_ => new SubjectRepository(db));*/
-            services.AddScoped<StudentRepository>();
-            services.AddScoped<SubjectRepository>();
-            //services.AddScoped<StudentsSubjectsRepository>();
+            services.AddDbContext<AbcSchoolDbContext>(options =>
+                options.UseSqlServer(
+                Configuration.GetConnectionString("dbContext"),
+                b => b.MigrationsAssembly(typeof(AbcSchoolDbContext).Assembly.FullName)));
+
+            services.AddTransient<IStudentRepository, StudentRepository>();
+            services.AddTransient<ISubjectRepository, SubjectRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AbcSchoolDbContext dbContext)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            dbContext.Database.EnsureCreated();
 
             app.UseHttpsRedirection();
 

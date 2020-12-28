@@ -3,11 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ABCSchool.Data.Interfaces;
 using ABCSchool.WebApi.Base;
 using ABCSchool.Data.Repositories;
-using ABCSchool.Models;
 using ABCSchool.WebApi.Interfaces;
+using ABCSchool.Domain.Entities;
 
 namespace ABCSchool.WebApi.Controllers
 {

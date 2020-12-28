@@ -1,18 +1,21 @@
-﻿using ABCSchool.Models;
+﻿using ABCSchool.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
+using System.Collections.Generic;
 
 namespace ABCSchool.Data
 {
-    public class AbcSchoolDbContext : Microsoft.EntityFrameworkCore.DbContext
+    public class AbcSchoolDbContext : DbContext
     {
+        public AbcSchoolDbContext(DbContextOptions<AbcSchoolDbContext> options) : base(options)
+        {
+        }
+
         public DbSet<Student> Students { get; set; }
         public DbSet<Subject> Subjects { get; set; }
-        public DbSet<StudentSubject> StudentSubjects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<StudentSubject>().HasKey(sc => new { sc.StudentId, sc.SubjectId });
+            base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Subject>()
                 .HasData(
@@ -61,16 +64,6 @@ namespace ABCSchool.Data
                         Id = 9,
                         Name = "Physical Education"
                     });
-
-
-
-
-            //base.OnModelCreating(modelBuilder);
-        }
-
-        public AbcSchoolDbContext(DbContextOptions<AbcSchoolDbContext> options) : base(options)
-        {
-            //Database.EnsureCreated();
-        }
-    }
+        }        
+    }    
 }
