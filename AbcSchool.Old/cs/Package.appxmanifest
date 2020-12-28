@@ -25,7 +25,7 @@
         DisplayName="ABC School Manager" 
         Square150x150Logo="Assets\squaretile-sdk.png" 
         Square44x44Logo="Assets\SmallTile-sdk.png" 
-        Description="Manange Users and Subjects" 
+        Description="Manage Users and Subjects" 
         BackgroundColor="#00b2f0">
         <uap:DefaultTile>
           <uap:ShowNameOnTiles>

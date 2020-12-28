@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 
-namespace ABCSchool.App.Core.Helpers
+namespace ABCSchool.Domain.Helpers
 {
     public static class Singleton<T>
         where T : new()

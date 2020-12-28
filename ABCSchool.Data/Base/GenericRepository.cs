@@ -12,7 +12,8 @@ namespace ABCSchool.Data.Base
         where TContext : DbContext
     {
         private readonly TContext context;
-        public GenericRepository(TContext context)
+
+        protected GenericRepository(TContext context)
         {
             this.context = context;
         }
