@@ -163,6 +163,7 @@ namespace ABCSchool.Views
                 DeleteItemBtn.Visibility = Visibility.Collapsed;
                 CancelSelectionBtn.Visibility = Visibility.Collapsed;
                 SaveBtn.Visibility = Visibility.Collapsed;
+
         }
 
         #endregion

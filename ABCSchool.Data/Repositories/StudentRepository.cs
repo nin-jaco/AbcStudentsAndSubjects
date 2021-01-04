@@ -19,12 +19,12 @@ namespace ABCSchool.Data.Repositories
 
         public override async Task<Student> Get(int id)
         {
-            return await _context.Students.Include("StudentSubject").FirstOrDefaultAsync(p => p.Id ==id);
+            return await _context.Students.Include("StudentSubjects").FirstOrDefaultAsync(p => p.Id ==id);
         }
 
         public override async Task<List<Student>> GetAll()
         {
-            return await _context.Set<Student>().Include("StudentSubject").ToListAsync();
+            return await _context.Set<Student>().Include("StudentSubjects").ToListAsync();
         }
     }
 }

@@ -44,7 +44,7 @@ namespace ABCSchool.ViewModels
             this.IsLoading = false;
             this.IsNewStudent = false;
             this.IsInEdit = false;
-            StudentSubjects = (ObservableCollection<StudentSubject>) model.StudentSubjects ?? new ObservableCollection<StudentSubject>();
+            StudentSubjects = model.StudentSubjects as ObservableCollection<StudentSubject> ?? new ObservableCollection<StudentSubject>();
         }
 
         

@@ -36,8 +36,8 @@ namespace ABCSchool.WebApi
                 Configuration.GetConnectionString("dbContext"),
                 b => b.MigrationsAssembly(typeof(AbcSchoolDbContext).Assembly.FullName)));
 
-            services.AddTransient<IStudentRepository, StudentRepository>();
-            services.AddTransient<ISubjectRepository, SubjectRepository>();
+            services.AddTransient<StudentRepository>();
+            services.AddTransient<SubjectRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 

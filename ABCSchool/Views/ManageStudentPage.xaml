@@ -10,6 +10,7 @@
     xmlns:common="using:ABCSchool.Common"
     xmlns:app="local:App"
     xmlns:viewModels="using:ABCSchool.ViewModels"
+    xmlns:entities="using:ABCSchool.Domain.Entities"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Transitions>
@@ -116,25 +117,25 @@
                 Content="{x:Bind ViewModel.SelectedStudent}"
                 >
                 <ContentPresenter.ContentTemplate>
-                    <DataTemplate x:DataType="viewModels:MainViewModel">
+                    <DataTemplate x:DataType="viewModels:StudentViewModel">
                         <StackPanel>
                             <TextBlock Style="{ThemeResource TitleTextBlockStyle}"
                                    Margin="0,8"       
-                                   Text="{x:Bind SelectedStudent.FirstName, Mode=OneWay}"/>
+                                   Text="{x:Bind FirstName, Mode=OneWay}"/>
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
                                    Margin="0,9" 
-                                   Text="{x:Bind SelectedStudent.LastName, Mode=OneWay}" />
+                                   Text="{x:Bind LastName, Mode=OneWay}" />
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
                                    Margin="0,9" 
-                                   Text="{x:Bind SelectedStudent.Mobile, Mode=OneWay}" />
+                                   Text="{x:Bind Mobile, Mode=OneWay}" />
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
                                    Margin="0,9" 
-                                   Text="{x:Bind SelectedStudent.Email, Mode=OneWay}" />
+                                   Text="{x:Bind Email, Mode=OneWay}" />
                             <ListView x:Name="listView2" HorizontalAlignment="Center" Height="235" Margin="51,10,0,0" 
-                                      VerticalAlignment="Top" ItemsSource="{x:Bind Subjects, Mode=OneWay}" >
+                                      VerticalAlignment="Top" ItemsSource="{x:Bind StudentSubjects, Mode=OneWay}" >
                                 <ListView.ItemTemplate >
-                                    <DataTemplate x:Name="subjectListTemplate" x:DataType="viewModels:SubjectViewModel">
-                                        <CheckBox x:Name="chkitems" Content="{Binding Name, Mode=OneWay}" IsChecked="{Binding IsSelected, Mode=OneWay }" IsEnabled="False">
+                                    <DataTemplate x:Name="subjectListTemplate" x:DataType="entities:StudentSubject">
+                                        <CheckBox x:Name="chkitems" Content="{Binding Subject.Name, Mode=OneWay}" IsEnabled="False">
                                         </CheckBox>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
@@ -186,7 +187,7 @@
                                 IsReadOnly="{x:Bind common:Converters.Not(ViewModel.SelectedStudent.IsInEdit), Mode=OneWay}"
                                 RelativePanel.Below="FirstName"
                                 RelativePanel.RightOf="Mobile"
-                                Text="{x:Bind Email, Mode=TwoWay}" />
+                                Text="{x:Bind ViewModel.SelectedStudent.Email, Mode=TwoWay}" />
                     <ListView x:Name="listView" HorizontalAlignment="Center" Height="235" Margin="51,10,0,0" 
                           VerticalAlignment="Top" ItemsSource="{x:Bind ViewModel.Subjects, Mode=OneWay}" >
                         <ListView.ItemTemplate >
