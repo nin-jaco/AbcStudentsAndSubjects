@@ -13,20 +13,20 @@ namespace ABCSchool.ViewModels
     /// <summary>
     /// Provides data and commands accessible to the entire app.  
     /// </summary>
-    public class MainViewModel : BindableBase, IEditableObject
+    public class MainViewModel : BindableBase
     {
+        /// <summary>
+        /// Creates a new MainViewModel.
+        /// </summary>
         public MainViewModel()
         {
-            this.Students = new ObservableCollection<StudentViewModel>();
-            this.Subjects = new ObservableCollection<SubjectViewModel>();
-            this.SelectedStudent = new StudentViewModel();
-            this.SelectedSubject = new SubjectViewModel();
+            Task.Run(GetAllStudents);
+            Task.Run(GetAllSubjects);
         }
 
+        public ObservableCollection<StudentViewModel> Students { get; } = new ObservableCollection<StudentViewModel>();
 
-        public ObservableCollection<StudentViewModel> Students { get; } 
-
-        public ObservableCollection<SubjectViewModel> Subjects { get; } 
+        public ObservableCollection<SubjectViewModel> Subjects { get; } = new ObservableCollection<SubjectViewModel>();
 
 
         private StudentViewModel _selectedStudent;
@@ -109,19 +109,6 @@ namespace ABCSchool.ViewModels
                 IsLoading = false;
             });
         }*/
-        public void BeginEdit()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void CancelEdit()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void EndEdit()
-        {
-            throw new System.NotImplementedException();
-        }
+        
     }
 }

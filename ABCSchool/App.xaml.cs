@@ -18,18 +18,19 @@ using ABCSchool.Domain.Entities;
 using ABCSchool.Interfaces;
 using ABCSchool.Services;
 using ABCSchool.ViewModels;
+using ABCSchool.Views;
 
 namespace ABCSchool
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    sealed partial class App : Application
+    public sealed partial class App : Application
     {
         /// <summary>
         /// Gets the app-wide MainViewModel singleton instance.
         /// </summary>
-        public static MainViewModel MainViewModel { get; } = new MainViewModel();
+        public static MainViewModel ViewModel { get; } = new MainViewModel();
 
         /// <summary>
         /// Pipeline for interacting with backend service or database.
@@ -44,7 +45,8 @@ namespace ABCSchool
         public App()
         {
             this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            Suspending += OnSuspending;
+            UnhandledException += OnAppUnhandledException;
         }
 
         /// <summary>
@@ -110,6 +112,12 @@ namespace ABCSchool
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        private void OnAppUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            // TODO WTS: Please log and handle the exception as appropriate to your scenario
+            // For more info see https://docs.microsoft.com/uwp/api/windows.ui.xaml.application.unhandledexception
         }
     }
 }

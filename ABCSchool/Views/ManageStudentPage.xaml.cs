@@ -16,13 +16,18 @@ using ABCSchool.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace ABCSchool
+namespace ABCSchool.Views
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class ManageStudentPage : Page
     {
+        /// <summary>
+        /// Gets the app-wide ViewModel instance.
+        /// </summary>
+        public MainViewModel ViewModel => App.ViewModel;
+
         public ManageStudentPage()
         {
             this.InitializeComponent();
@@ -55,7 +60,7 @@ namespace ABCSchool
         {
             if (StudentListView.SelectedItems.Count == 1)
             {
-                App.MainViewModel.SelectedStudent = StudentListView.SelectedItem as StudentViewModel;
+                ViewModel.SelectedStudent = StudentListView.SelectedItem as StudentViewModel;
                 //MainViewModel.RefreshSubjectList();
                 StudentListView.SelectionMode = ListViewSelectionMode.Single;
                 StudentListView.IsItemClickEnabled = true;
@@ -72,11 +77,11 @@ namespace ABCSchool
         #region Commands
         private void AddItem(object sender, RoutedEventArgs e)
         {
-            App.MainViewModel.SelectedStudent = new StudentViewModel();
+            ViewModel.SelectedStudent = new StudentViewModel();
             //MainViewModel.RefreshSubjectList();
             StudentListView.IsItemClickEnabled = false;
-            App.MainViewModel.SelectedStudent.IsInEdit = true;
-            App.MainViewModel.SelectedStudent.IsNewStudent = true;
+            ViewModel.SelectedStudent.IsInEdit = true;
+            ViewModel.SelectedStudent.IsNewStudent = true;
             DetailContentPresenter.Visibility = Visibility.Collapsed;
             RelativePanel.Visibility = Visibility.Visible;
             AddItemBtn.Visibility = Visibility.Collapsed;
@@ -87,22 +92,25 @@ namespace ABCSchool
         }
         private void DeleteItem(object sender, RoutedEventArgs e)
         {
-            if (App.MainViewModel.SelectedStudent != null)
+            if (ViewModel.SelectedStudent != null)
             {
-                App.MainViewModel.SelectedStudent.DeleteAsync();
-                App.MainViewModel.Students.Remove(App.MainViewModel.SelectedStudent);
+                ViewModel.SelectedStudent.DeleteAsync();
+                if (ViewModel.Students.Remove(ViewModel.SelectedStudent))
+                {
+                    if (StudentListView.Items?.Count > 0)
+                    {
+                        StudentListView.SelectedIndex = 0;
+                        ViewModel.SelectedStudent = StudentListView.SelectedItem as StudentViewModel;
+                    }
+                    else
+                    {
+                        // Details view is collapsed, in case there is not items.
+                        DetailContentPresenter.Visibility = Visibility.Collapsed;
+                        ViewModel.SelectedStudent = null;
+                    }
+                }
 
-                if (StudentListView.Items.Count > 0)
-                {
-                    StudentListView.SelectedIndex = 0;
-                    App.MainViewModel.SelectedStudent = StudentListView.SelectedItem as StudentViewModel;
-                }
-                else
-                {
-                    // Details view is collapsed, in case there is not items.
-                    DetailContentPresenter.Visibility = Visibility.Collapsed;
-                    App.MainViewModel.SelectedStudent = null;
-                }
+                
             }
         }
 
@@ -117,17 +125,17 @@ namespace ABCSchool
             DeleteItemBtn.Visibility = Visibility.Collapsed;
             CancelSelectionBtn.Visibility = Visibility.Collapsed;
             SaveBtn.Visibility = Visibility.Collapsed;
-            App.MainViewModel.SelectedStudent.CancelEdit();
+            ViewModel.SelectedStudent.CancelEdit();
         }
 
         private void EditItemBtn_OnClickItem(object sender, RoutedEventArgs e)
         {
             if (StudentListView.SelectedIndex != -1)
             {
-                if (StudentListView.Items.Count > 0)
+                if (StudentListView.Items?.Count > 0)
                 {
-                    App.MainViewModel.SelectedStudent = StudentListView.SelectedItem as StudentViewModel;
-                    if (App.MainViewModel.SelectedStudent != null) App.MainViewModel.SelectedStudent.StartEdit();
+                    ViewModel.SelectedStudent = StudentListView.SelectedItem as StudentViewModel;
+                    ViewModel.SelectedStudent?.StartEdit();
 
                     //MasterListView.SelectionMode = ListViewSelectionMode.None;
                     StudentListView.IsItemClickEnabled = false;
@@ -145,17 +153,16 @@ namespace ABCSchool
 
         private void SaveBtn_OnClickSelection(object sender, RoutedEventArgs e)
         {
-            if (App.MainViewModel?.SelectedStudent != null) App.MainViewModel.SelectedStudent.EndEdit();
-
-            StudentListView.SelectionMode = ListViewSelectionMode.Single;
-            StudentListView.IsItemClickEnabled = true;
-            DetailContentPresenter.Visibility = Visibility.Collapsed;
-            RelativePanel.Visibility = Visibility.Collapsed;
-            AddItemBtn.Visibility = Visibility.Visible;
-            EditItemBtn.Visibility = Visibility.Collapsed;
-            DeleteItemBtn.Visibility = Visibility.Collapsed;
-            CancelSelectionBtn.Visibility = Visibility.Collapsed;
-            SaveBtn.Visibility = Visibility.Collapsed;
+            ViewModel?.SelectedStudent?.EndEdit();
+                StudentListView.SelectionMode = ListViewSelectionMode.Single;
+                StudentListView.IsItemClickEnabled = true;
+                DetailContentPresenter.Visibility = Visibility.Collapsed;
+                RelativePanel.Visibility = Visibility.Collapsed;
+                AddItemBtn.Visibility = Visibility.Visible;
+                EditItemBtn.Visibility = Visibility.Collapsed;
+                DeleteItemBtn.Visibility = Visibility.Collapsed;
+                CancelSelectionBtn.Visibility = Visibility.Collapsed;
+                SaveBtn.Visibility = Visibility.Collapsed;
         }
 
         #endregion

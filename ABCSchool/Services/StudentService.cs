@@ -152,7 +152,7 @@ namespace ABCSchool.Services
             }
         }
 
-        public async Task<bool> PutAsJsonAsync(Student item)
+        public async Task<Student> PutAsJsonAsync(Student item)
         {
             try
             {
@@ -160,14 +160,24 @@ namespace ABCSchool.Services
                 {
                     if (item == null)
                     {
-                        return false;
+                        return null;
                     }
 
                     var serializedItem = JsonConvert.SerializeObject(item);
 
                     var response = await client.PutAsync($@"{ServiceUri}/{item.Id}", new StringContent(serializedItem, Encoding.UTF8, "application/json"));
 
-                    return response.IsSuccessStatusCode;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var result = await response.Content.ReadAsStringAsync();
+                        return JsonConvert.DeserializeObject<Student>(result);
+                    }
+                    else
+                    {
+                        Console.WriteLine(response.StatusCode);
+                        return null;
+                    }
+
                 }
             }
             catch (Exception e)

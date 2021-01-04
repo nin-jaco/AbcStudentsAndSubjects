@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
-namespace ABCSchool
+namespace ABCSchool.Views
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -24,12 +24,12 @@ namespace ABCSchool
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void ShowSplitView(object sender, RoutedEventArgs e)
         {
-            NavigationPane.NavigationSplitView.IsPaneOpen = !NavigationPane.NavigationSplitView.IsPaneOpen;
+            this.NavigationPane.NavigationSplitView.IsPaneOpen = !NavigationPane.NavigationSplitView.IsPaneOpen;
         }
     }
 }

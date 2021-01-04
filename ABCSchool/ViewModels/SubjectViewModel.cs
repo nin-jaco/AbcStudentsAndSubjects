@@ -19,7 +19,7 @@ namespace ABCSchool.ViewModels
             this.IsLoading = false;
             this.IsNewSubject = true;
             this.IsInEdit = false;
-            Students = new List<Student>();
+            StudentSubjects = new List<StudentSubject>();
         }
 
         public SubjectViewModel(Subject model)
@@ -31,7 +31,7 @@ namespace ABCSchool.ViewModels
             this.IsLoading = false;
             this.IsNewSubject = false;
             this.IsInEdit = false;
-            Students = model.Students;
+            StudentSubjects = model.StudentSubjects;
         }
 
         private Subject _model;
@@ -113,14 +113,14 @@ namespace ABCSchool.ViewModels
             set => Set(ref _isInEdit, value);
         }
 
-        public ICollection<Student> Students
+        public ICollection<StudentSubject> StudentSubjects
         {
-            get => Model.Students;
+            get => Model.StudentSubjects;
             set
             {
-                if (value != Model.Students)
+                if (value != Model.StudentSubjects)
                 {
-                    Model.Students = value;
+                    Model.StudentSubjects = value;
                     IsModified = true;
                     OnPropertyChanged();
                 }
@@ -151,7 +151,7 @@ namespace ABCSchool.ViewModels
             if (IsNewSubject)
             {
                 IsNewSubject = false;
-                App.MainViewModel.Subjects.Add(this);
+                App.ViewModel.Subjects.Add(this);
                 await App.SubjectService.PostAsJsonAsync(Model);
                 return;
             }

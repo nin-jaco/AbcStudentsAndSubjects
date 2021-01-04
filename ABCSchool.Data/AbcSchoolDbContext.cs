@@ -15,7 +15,18 @@ namespace ABCSchool.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            //base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<StudentSubject>()
+                .HasKey(bc => new { bc.StudentId, bc.SubjectId });
+            modelBuilder.Entity<StudentSubject>()
+                .HasOne(bc => bc.Student)
+                .WithMany(b => b.StudentSubjects)
+                .HasForeignKey(bc => bc.StudentId);
+            modelBuilder.Entity<StudentSubject>()
+                .HasOne(bc => bc.Subject)
+                .WithMany(c => c.StudentSubjects)
+                .HasForeignKey(bc => bc.SubjectId);
 
             modelBuilder.Entity<Subject>()
                 .HasData(

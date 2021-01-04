@@ -10,7 +10,7 @@ namespace ABCSchool.Domain.Entities
     {
         public Subject()
         {
-            Students = new HashSet<Student>();
+            StudentSubjects = new HashSet<StudentSubject>();
         }
 
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -19,6 +19,6 @@ namespace ABCSchool.Domain.Entities
         [StringLength(150, MinimumLength = 1)]
         public string Name { get; set; }
 
-        public virtual ICollection<Student> Students { get; set; }
+        public virtual ICollection<StudentSubject> StudentSubjects { get; set; }
     }
 }

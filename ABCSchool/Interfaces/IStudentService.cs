@@ -12,7 +12,7 @@ namespace ABCSchool.Interfaces
         Task<bool> PostAsync(T item);
         Task<T> PostAsJsonAsync(T item);
         Task<bool> PutAsync(T item);
-        Task<bool> PutAsJsonAsync(T item);
+        Task<T> PutAsJsonAsync(T item);
         Task<bool> DeleteAsync(int studentModelId);
         void AddAuthorizationHeader(string token);
     }

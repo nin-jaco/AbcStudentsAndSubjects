@@ -29,7 +29,7 @@ namespace ABCSchool.ViewModels
             this.IsLoading = false;
             this.IsNewStudent = true;
             this.IsInEdit = false;
-            Subjects = new List<Subject>();
+            StudentSubjects = new ObservableCollection<StudentSubject>();
         }
 
         public StudentViewModel(Student model)
@@ -44,8 +44,9 @@ namespace ABCSchool.ViewModels
             this.IsLoading = false;
             this.IsNewStudent = false;
             this.IsInEdit = false;
-            Subjects = model.Subjects;
+            StudentSubjects = (ObservableCollection<StudentSubject>) model.StudentSubjects ?? new ObservableCollection<StudentSubject>();
         }
+
         
         private Student _model;
         public Student Model
@@ -119,14 +120,14 @@ namespace ABCSchool.ViewModels
             }
         }
 
-        public ICollection<Subject> Subjects
+        public ObservableCollection<StudentSubject> StudentSubjects
         {
-            get => Model.Subjects;
+            get => (ObservableCollection<StudentSubject>) Model.StudentSubjects;
             set
             {
-                if (value != Model.Subjects)
+                if (value != Model.StudentSubjects)
                 {
-                    Model.Subjects = value;
+                    Model.StudentSubjects = value;
                     IsModified = true;
                     OnPropertyChanged();
                 }
@@ -173,6 +174,8 @@ namespace ABCSchool.ViewModels
             set => Set(ref _isInEdit, value);
         }
 
+        
+
         public void BeginEdit(){}
 
         public void StartEdit() => IsInEdit = true;
@@ -184,7 +187,7 @@ namespace ABCSchool.ViewModels
 
         public async void DeleteAsync()
         {
-            if(await StudentService.DeleteAsync(Model.Id)) App.MainViewModel.Students.Remove(this);
+            await StudentService.DeleteAsync(Model.Id);
         }
 
         /// <summary>
@@ -202,7 +205,7 @@ namespace ABCSchool.ViewModels
                 if (response != null)
                 {
                     this.Model = response;
-                    App.MainViewModel.Students.Add(this);
+                    App.ViewModel.Students.Add(this);
                 }
             }
 

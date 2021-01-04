@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,6 @@ namespace ABCSchool.Model
         bool IsLoading { get; set; }
         bool IsNewStudent { get; set; }
         bool IsInEdit { get; set; }
-        ICollection<Subject> Subjects { get; set; }
+        ObservableCollection<StudentSubject> StudentSubjects { get; set; }
     }
 }
