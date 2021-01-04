@@ -114,28 +114,28 @@
                 BorderThickness="1,0,0,0"
                 Padding="24,0"
                 BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}"
-                Content="{x:Bind ViewModel.SelectedStudent}"
+                Content="{x:Bind ViewModel}"
                 >
                 <ContentPresenter.ContentTemplate>
-                    <DataTemplate x:DataType="viewModels:StudentViewModel">
+                    <DataTemplate x:DataType="viewModels:MainViewModel">
                         <StackPanel>
                             <TextBlock Style="{ThemeResource TitleTextBlockStyle}"
                                    Margin="0,8"       
-                                   Text="{x:Bind FirstName, Mode=OneWay}"/>
+                                   Text="{x:Bind SelectedStudent.FirstName, Mode=OneWay}"/>
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
                                    Margin="0,9" 
-                                   Text="{x:Bind LastName, Mode=OneWay}" />
+                                   Text="{x:Bind SelectedStudent.LastName, Mode=OneWay}" />
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
                                    Margin="0,9" 
-                                   Text="{x:Bind Mobile, Mode=OneWay}" />
+                                   Text="{x:Bind SelectedStudent.Mobile, Mode=OneWay}" />
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" 
                                    Margin="0,9" 
-                                   Text="{x:Bind Email, Mode=OneWay}" />
+                                   Text="{x:Bind SelectedStudent.Email, Mode=OneWay}" />
                             <ListView x:Name="listView2" HorizontalAlignment="Center" Height="235" Margin="51,10,0,0" 
-                                      VerticalAlignment="Top" ItemsSource="{x:Bind StudentSubjects, Mode=OneWay}" >
+                                      VerticalAlignment="Top" ItemsSource="{x:Bind Subjects, Mode=OneWay}" >
                                 <ListView.ItemTemplate >
-                                    <DataTemplate x:Name="subjectListTemplate" x:DataType="entities:StudentSubject">
-                                        <CheckBox x:Name="chkitems" Content="{Binding Subject.Name, Mode=OneWay}" IsEnabled="False">
+                                    <DataTemplate x:Name="subjectListTemplate" x:DataType="viewModels:SubjectViewModel">
+                                        <CheckBox x:Name="chkitems" Content="{Binding Name, Mode=OneWay}" IsChecked="{Binding IsSelected, Mode=OneWay }" IsEnabled="False">
                                         </CheckBox>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
@@ -151,7 +151,7 @@
             <RelativePanel Margin="8,0,0,12" x:Name="RelativePanel" Padding="24,0" Grid.Column="1" Grid.RowSpan="2">
                 <StackPanel  >
                     <TextBox
-                                x:Name="FirstName"
+                                x:Name="TextBoxFirstName"
                                 MinWidth="120"
                                 Margin="0,8,16,8"
                                 Header="First name"
@@ -160,7 +160,7 @@
                                 Text="{x:Bind ViewModel.SelectedStudent.FirstName, Mode=TwoWay}"
                                 Visibility="{x:Bind ViewModel.SelectedStudent.IsInEdit, Mode=OneWay}" />
                     <TextBox
-                                x:Name="LastName"
+                                x:Name="TextBoxLastName"
                                 MinWidth="120"
                                 Margin="0,8,16,8"
                                 Header="Last name"
@@ -169,7 +169,7 @@
                                 Text="{x:Bind ViewModel.SelectedStudent.LastName, Mode=TwoWay}"
                                 Visibility="{x:Bind ViewModel.SelectedStudent.IsInEdit, Mode=OneWay}" />
                     <TextBox
-                                x:Name="Mobile"
+                                x:Name="TextBoxMobile"
                                 Grid.Row="1"
                                 MinWidth="120"
                                 Margin="0,8,16,0"
@@ -179,7 +179,7 @@
                                 RelativePanel.Below="FirstName"
                                 Text="{x:Bind ViewModel.SelectedStudent.Mobile, Mode=TwoWay}" />
                     <TextBox
-                                x:Name="Email"
+                                x:Name="TextBoxEmail"
                                 Grid.Column="2"
                                 MinWidth="160"
                                 Margin="0,8,16,0"

@@ -29,7 +29,7 @@ namespace ABCSchool.ViewModels
             this.IsLoading = false;
             this.IsNewStudent = true;
             this.IsInEdit = false;
-            StudentSubjects = new ObservableCollection<StudentSubject>();
+            SelectedSubjects = new ObservableCollection<SubjectViewModel>();
         }
 
         public StudentViewModel(Student model)
@@ -44,10 +44,25 @@ namespace ABCSchool.ViewModels
             this.IsLoading = false;
             this.IsNewStudent = false;
             this.IsInEdit = false;
-            StudentSubjects = model.StudentSubjects as ObservableCollection<StudentSubject> ?? new ObservableCollection<StudentSubject>();
+            Task.Run(UpdateSelectedSubjects);
         }
 
-        
+        public async void UpdateSelectedSubjects() => await UpdateSelectedSubjectsAsync();
+
+        public async Task UpdateSelectedSubjectsAsync()
+        {
+            await DispatcherHelper.ExecuteOnUIThreadAsync( () =>
+            {
+                var ids = Model?.StudentSubjects.Select(p => p.Subject.Id);
+                foreach (var c in App.ViewModel.Subjects)
+                {
+                    if (ids != null && ids.Contains(c.Model.Id)) c.IsSelected = true;
+                }
+                IsLoading = false;
+            });
+        }
+
+
         private Student _model;
         public Student Model
         {
@@ -120,19 +135,7 @@ namespace ABCSchool.ViewModels
             }
         }
 
-        public ObservableCollection<StudentSubject> StudentSubjects
-        {
-            get => (ObservableCollection<StudentSubject>) Model.StudentSubjects;
-            set
-            {
-                if (value != Model.StudentSubjects)
-                {
-                    Model.StudentSubjects = value;
-                    IsModified = true;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        public ObservableCollection<SubjectViewModel> SelectedSubjects { get; } = new ObservableCollection<SubjectViewModel>();
 
         /*public IList<StudentSubject> StudentSubjects
         {

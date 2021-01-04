@@ -19,6 +19,5 @@ namespace ABCSchool.Model
         bool IsLoading { get; set; }
         bool IsNewStudent { get; set; }
         bool IsInEdit { get; set; }
-        ObservableCollection<StudentSubject> StudentSubjects { get; set; }
     }
 }

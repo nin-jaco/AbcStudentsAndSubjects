@@ -64,7 +64,12 @@ namespace ABCSchool.ViewModels
                     Students.Clear();
                     foreach (var c in students)
                     {
-                        Students.Add(new StudentViewModel(c));
+                        var model = new StudentViewModel(c);
+                        foreach (var studentSubject in c.StudentSubjects)
+                        {
+                            model.SelectedSubjects.Add(new SubjectViewModel(studentSubject.Subject));
+                        }
+                        Students.Add(model);
                     }
                 }
                 

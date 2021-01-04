@@ -127,6 +127,7 @@
     <Compile Include="Interfaces\IStudentService.cs" />
     <Compile Include="Interfaces\IStudentsSubjectsService.cs" />
     <Compile Include="Interfaces\ISubjectService.cs" />
+    <Compile Include="ViewModels\StudentSubjectViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
