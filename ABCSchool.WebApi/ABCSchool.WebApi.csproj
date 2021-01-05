@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ABCSchool.Data\ABCSchool.Data.csproj" />
-    <ProjectReference Include="..\ABCSchool.Models\ABCSchool.Domain.csproj" />
+    <ProjectReference Include="..\ABCSchool.Domain\ABCSchool.Domain.csproj" />
   </ItemGroup>
 
 

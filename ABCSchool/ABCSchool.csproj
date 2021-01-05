@@ -198,12 +198,11 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ABCSchool.Models\ABCSchool.Domain.csproj">
-      <Project>{E9AA0649-EE94-4D25-9026-A02FB58DB229}</Project>
+    <ProjectReference Include="..\ABCSchool.Domain\ABCSchool.Domain.csproj">
+      <Project>{e4e5a625-8f16-4611-9342-37c38b95a752}</Project>
       <Name>ABCSchool.Domain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

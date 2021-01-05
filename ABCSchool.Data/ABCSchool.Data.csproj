@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ABCSchool.Models\ABCSchool.Domain.csproj" />
+    <ProjectReference Include="..\ABCSchool.Domain\ABCSchool.Domain.csproj" />
   </ItemGroup>
 
 </Project>
