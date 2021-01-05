@@ -161,17 +161,17 @@ namespace ABCSchool.Views
         }
 
         private void SaveBtn_OnClickSelection(object sender, RoutedEventArgs e)
-        {
+        { 
             ViewModel?.SelectedStudent?.EndEdit();
-                StudentListView.SelectionMode = ListViewSelectionMode.Single;
-                StudentListView.IsItemClickEnabled = true;
-                DetailContentPresenter.Visibility = Visibility.Collapsed;
-                RelativePanel.Visibility = Visibility.Collapsed;
-                AddItemBtn.Visibility = Visibility.Visible;
-                EditItemBtn.Visibility = Visibility.Collapsed;
-                DeleteItemBtn.Visibility = Visibility.Collapsed;
-                CancelSelectionBtn.Visibility = Visibility.Collapsed;
-                SaveBtn.Visibility = Visibility.Collapsed;
+            StudentListView.SelectionMode = ListViewSelectionMode.Single;
+            StudentListView.IsItemClickEnabled = true;
+            DetailContentPresenter.Visibility = Visibility.Collapsed;
+            RelativePanel.Visibility = Visibility.Collapsed;
+            AddItemBtn.Visibility = Visibility.Visible;
+            EditItemBtn.Visibility = Visibility.Collapsed;
+            DeleteItemBtn.Visibility = Visibility.Collapsed;
+            CancelSelectionBtn.Visibility = Visibility.Collapsed;
+            SaveBtn.Visibility = Visibility.Collapsed;
 
         }
 

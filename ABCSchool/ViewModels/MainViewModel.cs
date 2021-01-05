@@ -65,9 +65,10 @@ namespace ABCSchool.ViewModels
                     foreach (var c in students)
                     {
                         var model = new StudentViewModel(c);
-                        foreach (var studentSubject in c.StudentSubjects)
+                        var selectedSubjectIds = c.StudentSubjects?.Select(p => p.SubjectId)?.ToList();
+                        foreach (var p in App.ViewModel.Subjects)
                         {
-                            model.SelectedSubjects.Add(new SubjectViewModel(studentSubject.Subject));
+                            if (selectedSubjectIds != null && selectedSubjectIds.Contains(p.Model.Id)) p.IsSelected = true;
                         }
                         Students.Add(model);
                     }

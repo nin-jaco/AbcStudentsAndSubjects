@@ -29,7 +29,6 @@ namespace ABCSchool.ViewModels
             this.IsLoading = false;
             this.IsNewStudent = true;
             this.IsInEdit = false;
-            SelectedSubjects = new ObservableCollection<SubjectViewModel>();
         }
 
         public StudentViewModel(Student model)
@@ -135,22 +134,6 @@ namespace ABCSchool.ViewModels
             }
         }
 
-        public ObservableCollection<SubjectViewModel> SelectedSubjects { get; } = new ObservableCollection<SubjectViewModel>();
-
-        /*public IList<StudentSubject> StudentSubjects
-        {
-            get => Model.StudentSubjects;
-            set
-            {
-                if (value != Model.StudentSubjects)
-                {
-                    Model.StudentSubjects = value;
-                    IsModified = true;
-                    OnPropertyChanged();
-                }
-            }
-        }*/
-
 
         public bool IsModified { get; set; }
 
@@ -198,6 +181,11 @@ namespace ABCSchool.ViewModels
         /// </summary>
         public async Task SaveAsync()
         {
+            var subjects = App.ViewModel.Subjects.Where(p => p.IsSelected)?.ToList();
+            foreach (var p in subjects)
+            {
+                Model.StudentSubjects.Add(new StudentSubject { StudentId = Model.Id, Student = Model, SubjectId = p.Model.Id, Subject = p.Model});
+            }
 
             IsInEdit = false;
             IsModified = false;
@@ -212,11 +200,7 @@ namespace ABCSchool.ViewModels
                 }
             }
 
-            /*var subjects = App.MainViewModel.Subjects.Where(p => p.IsSelected)?.ToList();
-            foreach (var p in subjects)
-            {
-                Model.StudentSubjects.Add(new StudentSubject{ StudentId = Model.Id, SubjectId = p.Model.Id });
-            }*/
+            
             await StudentService.PutAsJsonAsync(Model);
         }
         
