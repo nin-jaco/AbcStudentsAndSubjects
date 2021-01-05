@@ -184,7 +184,7 @@ namespace ABCSchool.ViewModels
             var subjects = App.ViewModel.Subjects.Where(p => p.IsSelected)?.ToList();
             foreach (var p in subjects)
             {
-                Model.StudentSubjects.Add(new StudentSubject { StudentId = Model.Id, Student = Model, SubjectId = p.Model.Id, Subject = p.Model});
+                Model.StudentSubjects.Add(new StudentSubject { StudentId = Model.Id, SubjectId = p.Model.Id});
             }
 
             IsInEdit = false;
@@ -198,6 +198,7 @@ namespace ABCSchool.ViewModels
                     this.Model = response;
                     App.ViewModel.Students.Add(this);
                 }
+                return;
             }
 
             
