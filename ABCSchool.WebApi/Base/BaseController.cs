@@ -3,27 +3,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ABCSchool.Data.Interfaces;
+using ABCSchool.Domain.Entities;
 using ABCSchool.Domain.Interfaces;
+using ABCSchool.WebApi.Interfaces;
 
 namespace ABCSchool.WebApi.Base
 {
     [Route("api/[controller]")]
     [ApiController]
-    public abstract class BaseController<TEntity, TRepository> : ControllerBase
+    public abstract class BaseController<TEntity, TRepository> : ControllerBase, IBaseController<TEntity>
         where TEntity : class, IEntity
         where TRepository : IGenericRepository<TEntity>
     {
         private readonly TRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public BaseController(TRepository repository)
+        protected BaseController(IUnitOfWork unitOfWork,TRepository repository)
         {
             this._repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
 
         // GET: api/[controller]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TEntity>>> Get()
+        public async Task<ActionResult<IList<TEntity>>> Get()
         {
             return await _repository.GetAll();
         }
@@ -42,14 +47,13 @@ namespace ABCSchool.WebApi.Base
 
         // PUT: api/[controller]/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, TEntity item)
+        public virtual async Task<ActionResult<TEntity>> Put(int id, TEntity item)
         {
             if (id != item.Id)
             {
                 return BadRequest();
             }
-            await _repository.Update(item);
-            return NoContent();
+            return await _repository.Update(item);
         }
 
         // POST: api/[controller]

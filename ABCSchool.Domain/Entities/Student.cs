@@ -6,13 +6,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ABCSchool.Domain.Entities
 {
     [Table("Students")]
-    public partial class Student : IEntity
+    public class Student : IEntity
     {
-        public Student()
-        {
-            StudentSubjects = new HashSet<StudentSubject>();
-        }
-
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
@@ -27,6 +22,6 @@ namespace ABCSchool.Domain.Entities
         [DataType(DataType.PhoneNumber)]
         public string Mobile { get; set; }
 
-        public virtual ICollection<StudentSubject> StudentSubjects { get; set; }
+        public virtual ICollection<StudentSubject> StudentSubjects { get; set; } = new HashSet<StudentSubject>();
     }
 }

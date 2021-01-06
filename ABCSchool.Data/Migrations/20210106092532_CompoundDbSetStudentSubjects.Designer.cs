@@ -3,14 +3,16 @@ using ABCSchool.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ABCSchool.Data.Migrations
 {
     [DbContext(typeof(AbcSchoolDbContext))]
-    partial class AbcSchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210106092532_CompoundDbSetStudentSubjects")]
+    partial class CompoundDbSetStudentSubjects
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,16 +57,11 @@ namespace ABCSchool.Data.Migrations
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.HasKey("StudentId", "SubjectId");
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("StudentSubjects");
+                    b.ToTable("StudentSubject");
                 });
 
             modelBuilder.Entity("ABCSchool.Domain.Entities.Subject", b =>

@@ -26,8 +26,11 @@ namespace ABCSchool.Services
                 using (HttpClient client = new HttpClient(handler))
                 {
                     var response = await client.GetAsync(ServiceUri);
-                    var json = await response.Content.ReadAsStringAsync();
-                    result = await Task.Run(() => JsonConvert.DeserializeObject<List<Student>>(json));
+                    if (response?.IsSuccessStatusCode == true)
+                    {
+                        var json = await response.Content.ReadAsStringAsync();
+                        result = await Task.Run(() => JsonConvert.DeserializeObject<List<Student>>(json));
+                    }
                 }
             }
             catch (Exception e)

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ABCSchool.Data;
+using ABCSchool.Data.Interfaces;
 using ABCSchool.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using ABCSchool.Domain.Interfaces;
@@ -47,6 +48,10 @@ namespace ABCSchool.WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/error");
             }
 
             dbContext.Database.EnsureCreated();

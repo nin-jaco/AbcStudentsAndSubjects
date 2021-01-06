@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using ABCSchool.Data.Base;
+using ABCSchool.Data.Interfaces;
+using ABCSchool.Data.Repositories.Base;
 using ABCSchool.Domain.Entities;
 using ABCSchool.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ABCSchool.Data.Repositories
 {
-    public class SubjectRepository : GenericRepository<Subject, AbcSchoolDbContext>, ISubjectRepository
+    public class SubjectRepository : GenericRepository<Subject>, ISubjectRepository
     {
         private readonly AbcSchoolDbContext _context;
 

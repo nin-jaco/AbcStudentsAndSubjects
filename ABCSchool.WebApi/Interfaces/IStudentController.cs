@@ -1,6 +1,10 @@
-﻿namespace ABCSchool.WebApi.Interfaces
+﻿using ABCSchool.Domain.Entities;
+using ABCSchool.Domain.Interfaces;
+using ABCSchool.WebApi.Base;
+
+namespace ABCSchool.WebApi.Interfaces
 {
-    public interface IStudentController 
+    public interface IStudentController : IBaseController<Student>
     {
     }
 }

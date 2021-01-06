@@ -3,14 +3,16 @@ using ABCSchool.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ABCSchool.Data.Migrations
 {
     [DbContext(typeof(AbcSchoolDbContext))]
-    partial class AbcSchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210106142102_AddStudentSubjectIdAndTableName")]
+    partial class AddStudentSubjectIdAndTableName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

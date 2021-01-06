@@ -186,7 +186,6 @@ namespace ABCSchool.ViewModels
             {
                 Model.StudentSubjects.Add(new StudentSubject { StudentId = Model.Id, SubjectId = p.Model.Id});
             }
-
             IsInEdit = false;
             IsModified = false;
             if (IsNewStudent)
@@ -198,11 +197,13 @@ namespace ABCSchool.ViewModels
                     this.Model = response;
                     App.ViewModel.Students.Add(this);
                 }
-                return;
+            }
+            else
+            {
+                await StudentService.PutAsJsonAsync(Model);
             }
 
-            
-            await StudentService.PutAsJsonAsync(Model);
+            App.ViewModel.GetAllSubjects();
         }
         
         /// <summary>

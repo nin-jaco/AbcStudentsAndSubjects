@@ -1,9 +1,6 @@
 ﻿using ABCSchool.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ABCSchool.Domain.Interfaces
+namespace ABCSchool.Data.Interfaces
 {
     public interface ISubjectRepository : IGenericRepository<Subject>
     {
